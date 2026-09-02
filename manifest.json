@@ -1,0 +1,27 @@
+{
+  "name": "FSSM Campus Navigator",
+  "short_name": "FSSM Nav",
+  "description": "Navigation interactive du campus Faculté des Sciences Semlalia, Marrakech",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f8fafc",
+  "theme_color": "#2563eb",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["education", "navigation"],
+  "prefer_related_applications": false
+}
