@@ -1,21 +1,54 @@
 'use strict';
 /* ─── Constants ───────────────────────────────────────────────────────────── */
-const CAMPUS_CENTER = [31.6482, -8.0125];
-const MAIN_ENTRANCE = [31.6455, -8.0125];
+const CAMPUS_CENTER = [31.6490, -8.0155];
+const MAIN_ENTRANCE = [31.648194, -8.014417];
 const TILE_LIGHT = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 const TILE_DARK  = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
 const TILE_ATTR  = '© <a href="https://carto.com/">CARTO</a> © <a href="https://openstreetmap.org/copyright">OSM</a>';
 
+// Exact boundary polygon of Faculté des Sciences Semlalia (OSM way 299506577)
+const FSSM_BOUNDARY = [
+  [31.648864, -8.013933],
+  [31.648709, -8.013917],
+  [31.648270, -8.014357],
+  [31.648161, -8.014437],
+  [31.648124, -8.014421],
+  [31.647562, -8.014811],
+  [31.647192, -8.015233],
+  [31.649560, -8.017261],
+  [31.649937, -8.016726],
+  [31.650002, -8.016802],
+  [31.650070, -8.016932],
+  [31.650298, -8.017431],
+  [31.650470, -8.017495],
+  [31.651428, -8.016417],
+  [31.648864, -8.013933],
+];
+
+// World outer polygon; FSSM_BOUNDARY acts as an inner hole cutout
+const WORLD_MASK = [
+  [-90, -180],
+  [-90, 180],
+  [90, 180],
+  [90, -180]
+];
+
 /* ─── Map init ────────────────────────────────────────────────────────────── */
 function initMap() {
+  const campusBounds = L.latLngBounds(FSSM_BOUNDARY);
   APP_STATE.map = L.map('map', {
     center: CAMPUS_CENTER,
     zoom: 17,
+    minZoom: 16,
+    maxZoom: 20,
+    maxBounds: campusBounds.pad(0.35),
+    maxBoundsViscosity: 0.85,
     zoomControl: false,
     attributionControl: true,
   });
 
   applyTileLayer();
+  applyCampusMask();
   renderMarkers();
 
   APP_STATE.map.on('click', () => {
@@ -30,7 +63,44 @@ function applyTileLayer() {
     attribution: TILE_ATTR,
     subdomains: 'abcd',
     maxZoom: 20,
+    crossOrigin: true,
   }).addTo(APP_STATE.map);
+
+  applyCampusMask();
+}
+
+function applyCampusMask() {
+  if (!APP_STATE.map) return;
+
+  const isDark = APP_STATE.darkMode;
+  const maskStyle = {
+    fillColor: isDark ? '#020617' : '#0f172a',
+    fillOpacity: isDark ? 0.72 : 0.45,
+    stroke: false,
+    interactive: false,
+  };
+
+  const borderStyle = {
+    color: isDark ? '#60a5fa' : '#2563eb',
+    weight: 2.5,
+    opacity: 0.85,
+    dashArray: '6, 6',
+    fill: false,
+    interactive: false,
+  };
+
+  if (!APP_STATE.maskLayer) {
+    // Inverted polygon: outer ring is world, inner hole is FSSM campus
+    APP_STATE.maskLayer = L.polygon([WORLD_MASK, FSSM_BOUNDARY], maskStyle).addTo(APP_STATE.map);
+  } else {
+    APP_STATE.maskLayer.setStyle(maskStyle);
+  }
+
+  if (!APP_STATE.boundaryLayer) {
+    APP_STATE.boundaryLayer = L.polygon(FSSM_BOUNDARY, borderStyle).addTo(APP_STATE.map);
+  } else {
+    APP_STATE.boundaryLayer.setStyle(borderStyle);
+  }
 }
 
 /* ─── Markers ─────────────────────────────────────────────────────────────── */

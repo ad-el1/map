@@ -137,6 +137,8 @@ const APP_STATE = {
   map: null,
   tileLayer: null,
   markers: {},
+  maskLayer: null,
+  boundaryLayer: null,
   userMarker: null,
   routeLayer: null,
   userLocation: null,

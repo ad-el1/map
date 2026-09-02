@@ -1,8 +1,9 @@
 'use strict';
 
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3';
 const STATIC_CACHE  = `fssm-static-${CACHE_VERSION}`;
 const TILE_CACHE    = `fssm-tiles-${CACHE_VERSION}`;
+const MAX_TILES     = 350;
 
 const STATIC_ASSETS = [
   './index.html',
@@ -68,7 +69,7 @@ async function cacheFirst(request, cacheName) {
   if (cached) return cached;
   try {
     const response = await fetch(request);
-    if (response.ok) {
+    if (response.ok || response.type === 'opaque') {
       const cache = await caches.open(cacheName);
       cache.put(request, response.clone());
     }
@@ -81,13 +82,28 @@ async function cacheFirst(request, cacheName) {
 async function networkFirst(request, cacheName) {
   try {
     const response = await fetch(request);
-    if (response.ok) {
+    if (response.ok || response.type === 'opaque') {
       const cache = await caches.open(cacheName);
       cache.put(request, response.clone());
+      trimCache(cache, MAX_TILES);
     }
     return response;
   } catch {
     const cached = await caches.match(request);
     return cached || new Response('', { status: 503 });
+  }
+}
+
+async function trimCache(cache, maxItems) {
+  try {
+    const keys = await cache.keys();
+    if (keys.length > maxItems) {
+      const excess = keys.length - maxItems;
+      for (let i = 0; i < excess; i++) {
+        await cache.delete(keys[i]);
+      }
+    }
+  } catch {
+    // Silently ignore cache trim errors
   }
 }

@@ -7,7 +7,7 @@ A mobile-first **Progressive Web App** for navigating the campus of **Faculté d
 ## Features
 
 ### Interactive Map
-- Campus centered at **31.6482, -8.0125** (Bd Prince My Abdellah, Marrakech)
+- Campus centered at **31.6490, -8.0155** (Bd Prince My Abdellah, Marrakech)
 - **32 building markers** colour-coded by category with custom emoji pins
 - Zoom, pan, and tap any building for details
 - **CartoDB Positron** (light) and **Dark Matter** (dark) tile layers
@@ -130,13 +130,7 @@ Then open `http://localhost:8080` (or the port shown).
 
 ## Building Data
 
-All coordinates in `data/buildings.js` are **approximate test values** distributed within ~500 m of campus centre. They are labelled `// TEST DATA` at the top of the file.
-
-To replace with real coordinates:
-
-1. Open `data/buildings.js`
-2. For each building, update the `coordinates: [lat, lng]` field
-3. No other files need to change
+Coordinates in `data/buildings.js` are based on real on-campus GPS survey measurements centered around **Pavillon Central** (31.6490, -8.0155) and **Porte 1** (31.648194, -8.014417).
 
 ### Buildings included
 
@@ -201,7 +195,7 @@ To replace with real coordinates:
 
 ## Roadmap
 
-- [ ] Replace mock coordinates with surveyed real positions
+- [x] Replace mock coordinates with surveyed real positions
 - [ ] Integrate OpenRouteService for turn-by-turn road routing (optional)
 - [ ] Add floor plans for multi-storey buildings
 - [ ] Department timetable integration

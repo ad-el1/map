@@ -1,59 +1,59 @@
 /* eslint-disable */
-// TEST DATA — coordinates are approximate and will be replaced with real ones.
-// Campus center: 31.6482, -8.0125 (FSSM, Boulevard Prince My Abdellah, Marrakech)
+// Real surveyed coordinates (FSSM campus, Boulevard Prince My Abdellah, Marrakech)
+// Campus center: 31.6490, -8.0155 (Pavillon Central)
 
 const BUILDINGS = [
   // ── Entrée & Parking ───────────────────────────────────────────────────────
   {
     id: 'entree-principale',
-    name: 'Entrée Principale',
-    nameEn: 'Main Entrance',
-    nameAr: 'المدخل الرئيسي',
+    name: 'Entrée Principale (Porte 1)',
+    nameEn: 'Main Entrance (Gate 1)',
+    nameAr: 'المدخل الرئيسي (الباب 1)',
     code: 'EP',
     department: null,
     category: 'administration',
-    coordinates: [31.6455, -8.0125],
+    coordinates: [31.648194, -8.014417],
     openingHours: '07:00 – 22:00',
-    services: ['Sécurité', 'Accueil', 'Information'],
-    description: 'Entrée principale de la faculté'
+    services: ['Sécurité', 'Accueil', 'Information', 'Accès Bd Prince My Abdellah'],
+    description: 'Entrée principale de la faculté (Porte 1)'
   },
   {
     id: 'parking-etudiants',
-    name: 'Parking Étudiants',
-    nameEn: 'Student Parking',
-    nameAr: 'موقف الطلاب',
+    name: 'Parking Étudiants & Deux-Roues',
+    nameEn: 'Student & Two-Wheeler Parking',
+    nameAr: 'موقف الطلاب والدراجات',
     code: 'PK',
     department: null,
     category: 'parking',
-    coordinates: [31.6460, -8.0142],
+    coordinates: [31.647361, -8.015250],
     openingHours: '07:00 – 22:00',
-    services: ['Stationnement gratuit', 'Surveillance', '200 places'],
-    description: 'Parking réservé aux étudiants et personnel'
+    services: ['Stationnement gratuit', 'Surveillance', 'Parking moto & vélo'],
+    description: 'Parking réservé aux étudiants et au personnel'
   },
 
   // ── Administration ─────────────────────────────────────────────────────────
   {
     id: 'presidence',
-    name: 'Présidence & Administration',
+    name: 'Présidence & Décanat',
     nameEn: "Dean's Office & Administration",
-    nameAr: 'الرئاسة والإدارة',
+    nameAr: 'العمادة والإدارة',
     code: 'ADM',
     department: 'Administration',
     category: 'administration',
-    coordinates: [31.6475, -8.0125],
+    coordinates: [31.648778, -8.014750],
     openingHours: '08:30 – 16:30',
     services: ['Bureau du Doyen', 'Ressources Humaines', 'Finance', 'Protocole'],
-    description: 'Bâtiment administratif central de la faculté'
+    description: 'Bâtiment administratif central et décanat de la faculté'
   },
   {
     id: 'scolarite',
-    name: 'Scolarité',
-    nameEn: 'Student Affairs',
-    nameAr: 'شؤون الطلاب',
+    name: 'Scolarité & Centre de Recherche',
+    nameEn: 'Student Affairs & Research Center',
+    nameAr: 'شؤون الطلاب ومركز الأبحاث',
     code: 'SCO',
     department: 'Administration',
     category: 'administration',
-    coordinates: [31.6472, -8.0112],
+    coordinates: [31.648350, -8.014650],
     openingHours: '08:30 – 15:30',
     services: ['Inscriptions', 'Certificats de scolarité', 'Relevés de notes', 'Attestations'],
     description: 'Service des affaires étudiantes et inscriptions'
@@ -68,7 +68,7 @@ const BUILDINGS = [
     code: 'BIB',
     department: null,
     category: 'library',
-    coordinates: [31.6480, -8.0100],
+    coordinates: [31.648000, -8.014556],
     openingHours: '08:00 – 20:00',
     services: ['Prêt de livres', 'Salle de lecture', 'Accès Internet', 'Photocopie', 'Ressources numériques', 'Archives'],
     description: 'Bibliothèque centrale de la faculté'
@@ -83,23 +83,23 @@ const BUILDINGS = [
     code: 'RU',
     department: null,
     category: 'restaurant',
-    coordinates: [31.6490, -8.0148],
+    coordinates: [31.650050, -8.016100],
     openingHours: '11:30 – 14:30',
     services: ['Déjeuner subventionné', 'Menu étudiant', 'Cafétéria annexe'],
     description: 'Restaurant universitaire principal, repas subventionnés'
   },
   {
     id: 'cafeteria',
-    name: 'Cafétéria Centrale',
-    nameEn: 'Main Cafeteria',
-    nameAr: 'المقصف المركزي',
+    name: 'Cafétéria / Buvette Senior',
+    nameEn: 'Main Cafeteria / Senior Snack',
+    nameAr: 'المقصف المركزي / مقصف الأساتذة',
     code: 'CAF',
     department: null,
     category: 'restaurant',
-    coordinates: [31.6485, -8.0132],
+    coordinates: [31.650278, -8.016250],
     openingHours: '07:30 – 18:00',
-    services: ['Café & boissons', 'Sandwichs', 'Pâtisseries', 'Snacks'],
-    description: 'Cafétéria centrale ouverte toute la journée'
+    services: ['Café & boissons', 'Sandwichs', 'Pâtisseries', 'Snacks', 'Terrasse'],
+    description: 'Buvette et cafétéria ouverte toute la journée'
   },
 
   // ── Amphithéâtres I–VIII ───────────────────────────────────────────────────
@@ -111,7 +111,7 @@ const BUILDINGS = [
     code: 'A1',
     department: null,
     category: 'amphitheater',
-    coordinates: [31.6465, -8.0120],
+    coordinates: [31.649278, -8.015528],
     openingHours: '08:00 – 20:00',
     services: ['Cours magistraux', 'Capacité 500 places', 'Climatisation', 'Vidéoprojecteur'],
     description: 'Grand amphithéâtre principal'
@@ -124,7 +124,7 @@ const BUILDINGS = [
     code: 'A2',
     department: null,
     category: 'amphitheater',
-    coordinates: [31.6465, -8.0108],
+    coordinates: [31.649028, -8.015083],
     openingHours: '08:00 – 20:00',
     services: ['Cours magistraux', 'Capacité 400 places', 'Climatisation'],
     description: 'Amphithéâtre II'
@@ -137,7 +137,7 @@ const BUILDINGS = [
     code: 'A3',
     department: null,
     category: 'amphitheater',
-    coordinates: [31.6470, -8.0098],
+    coordinates: [31.648667, -8.015333],
     openingHours: '08:00 – 20:00',
     services: ['Cours magistraux', 'Capacité 400 places', 'Système audio'],
     description: 'Amphithéâtre III'
@@ -150,7 +150,7 @@ const BUILDINGS = [
     code: 'A4',
     department: null,
     category: 'amphitheater',
-    coordinates: [31.6470, -8.0088],
+    coordinates: [31.649639, -8.014972],
     openingHours: '08:00 – 20:00',
     services: ['Cours magistraux', 'Capacité 350 places'],
     description: 'Amphithéâtre IV'
@@ -163,7 +163,7 @@ const BUILDINGS = [
     code: 'A5',
     department: null,
     category: 'amphitheater',
-    coordinates: [31.6475, -8.0080],
+    coordinates: [31.649306, -8.014556],
     openingHours: '08:00 – 20:00',
     services: ['Cours magistraux', 'Capacité 300 places'],
     description: 'Amphithéâtre V'
@@ -176,7 +176,7 @@ const BUILDINGS = [
     code: 'A6',
     department: null,
     category: 'amphitheater',
-    coordinates: [31.6480, -8.0086],
+    coordinates: [31.648389, -8.015944],
     openingHours: '08:00 – 20:00',
     services: ['Cours magistraux', 'Capacité 300 places'],
     description: 'Amphithéâtre VI'
@@ -189,7 +189,7 @@ const BUILDINGS = [
     code: 'A7',
     department: null,
     category: 'amphitheater',
-    coordinates: [31.6485, -8.0094],
+    coordinates: [31.648111, -8.015750],
     openingHours: '08:00 – 20:00',
     services: ['Cours magistraux', 'Capacité 250 places'],
     description: 'Amphithéâtre VII'
@@ -202,64 +202,64 @@ const BUILDINGS = [
     code: 'A8',
     department: null,
     category: 'amphitheater',
-    coordinates: [31.6485, -8.0112],
+    coordinates: [31.648861, -8.016028],
     openingHours: '08:00 – 20:00',
     services: ['Cours magistraux', 'Capacité 250 places'],
     description: 'Amphithéâtre VIII'
   },
 
-  // ── Amphithéâtres A–D ──────────────────────────────────────────────────────
+  // ── Amphithéâtres IX, X, Extensions, Pavillon Central ───────────────────────
   {
     id: 'amphi-a',
-    name: 'Amphithéâtre A',
-    nameEn: 'Lecture Hall A',
-    nameAr: 'قاعة المحاضرات أ',
-    code: 'AA',
+    name: 'Amphithéâtre IX (Amphi 9)',
+    nameEn: 'Lecture Hall IX (Amphi 9)',
+    nameAr: 'قاعة المحاضرات التاسعة',
+    code: 'A9',
     department: null,
     category: 'amphitheater',
-    coordinates: [31.6490, -8.0116],
+    coordinates: [31.649472, -8.014806],
     openingHours: '08:00 – 20:00',
-    services: ['Cours magistraux', 'Capacité 200 places', 'Vidéoprojecteur', 'Wi-Fi'],
-    description: 'Amphithéâtre A — salle polyvalente'
+    services: ['Cours magistraux', 'Capacité 250 places', 'Vidéoprojecteur', 'Wi-Fi'],
+    description: 'Amphithéâtre IX (Amphi 9)'
   },
   {
     id: 'amphi-b',
-    name: 'Amphithéâtre B',
-    nameEn: 'Lecture Hall B',
-    nameAr: 'قاعة المحاضرات ب',
-    code: 'AB',
+    name: 'Amphithéâtre X (Amphi 10)',
+    nameEn: 'Lecture Hall X (Amphi 10)',
+    nameAr: 'قاعة المحاضرات العاشرة',
+    code: 'A10',
     department: null,
     category: 'amphitheater',
-    coordinates: [31.6490, -8.0130],
+    coordinates: [31.650139, -8.016444],
     openingHours: '08:00 – 20:00',
-    services: ['Cours magistraux', 'Capacité 200 places', 'Vidéoprojecteur'],
-    description: 'Amphithéâtre B'
+    services: ['Cours magistraux', 'Capacité 250 places', 'Vidéoprojecteur'],
+    description: 'Amphithéâtre X (Amphi 10)'
   },
   {
     id: 'amphi-c',
-    name: 'Amphithéâtre C',
-    nameEn: 'Lecture Hall C',
-    nameAr: 'قاعة المحاضرات ج',
-    code: 'AC',
+    name: 'Amphithéâtres Extensions',
+    nameEn: 'Extension Lecture Halls',
+    nameAr: 'قاعات مدرجات الملحق',
+    code: 'EXT',
     department: null,
     category: 'amphitheater',
-    coordinates: [31.6495, -8.0120],
+    coordinates: [31.649528, -8.016833],
     openingHours: '08:00 – 20:00',
-    services: ['Cours magistraux', 'Capacité 180 places'],
-    description: 'Amphithéâtre C'
+    services: ['Cours magistraux', 'Salles de cours', 'Capacité 200 places'],
+    description: 'Bâtiment des extensions d amphithéâtres'
   },
   {
     id: 'amphi-d',
-    name: 'Amphithéâtre D',
-    nameEn: 'Lecture Hall D',
-    nameAr: 'قاعة المحاضرات د',
-    code: 'AD',
+    name: 'Pavillon Central',
+    nameEn: 'Central Pavilion',
+    nameAr: 'الجناح المركزي',
+    code: 'PC',
     department: null,
     category: 'amphitheater',
-    coordinates: [31.6495, -8.0108],
+    coordinates: [31.648917, -8.015417],
     openingHours: '08:00 – 20:00',
-    services: ['Cours magistraux', 'Capacité 180 places'],
-    description: 'Amphithéâtre D'
+    services: ['Grande salle de conférences', 'Cours magistraux', 'Capacité 200 places'],
+    description: 'Pavillon central au cœur du campus'
   },
 
   // ── Départements ───────────────────────────────────────────────────────────
@@ -271,7 +271,7 @@ const BUILDINGS = [
     code: 'BIO',
     department: 'Biologie',
     category: 'department',
-    coordinates: [31.6500, -8.0125],
+    coordinates: [31.649528, -8.015083],
     openingHours: '08:00 – 18:00',
     services: ['Salles de cours', 'Bureaux professeurs', 'Salle de réunion', 'Documentation'],
     description: 'Département des Sciences de la Vie et de la Terre'
@@ -284,7 +284,7 @@ const BUILDINGS = [
     code: 'CHI',
     department: 'Chimie',
     category: 'department',
-    coordinates: [31.6505, -8.0110],
+    coordinates: [31.648083, -8.015444],
     openingHours: '08:00 – 18:00',
     services: ['Salles de cours', 'Bureaux professeurs', 'Salle de réunion'],
     description: 'Département de Chimie'
@@ -297,20 +297,20 @@ const BUILDINGS = [
     code: 'GEO',
     department: 'Géologie',
     category: 'department',
-    coordinates: [31.6505, -8.0142],
+    coordinates: [31.648944, -8.014389],
     openingHours: '08:00 – 18:00',
     services: ['Salles de cours', 'Bureaux professeurs', 'Lithothèque', 'Cartographie'],
     description: 'Département des Sciences de la Terre'
   },
   {
     id: 'dept-informatique',
-    name: 'Département Informatique',
-    nameEn: 'Computer Science Department',
-    nameAr: 'قسم الإعلاميات',
+    name: 'Département Informatique (Centre Ibn Jaber)',
+    nameEn: 'Computer Science Dept (Ibn Jaber Center)',
+    nameAr: 'قسم الإعلاميات (مركز ابن جابر)',
     code: 'INFO',
     department: 'Informatique',
     category: 'department',
-    coordinates: [31.6510, -8.0125],
+    coordinates: [31.650750, -8.016333],
     openingHours: '08:00 – 18:00',
     services: ['Salles de cours', 'Bureaux professeurs', 'Salle machines', 'Wi-Fi dédié'],
     description: 'Département Informatique et Intelligence Artificielle'
@@ -323,10 +323,10 @@ const BUILDINGS = [
     code: 'MATH',
     department: 'Mathématiques',
     category: 'department',
-    coordinates: [31.6515, -8.0110],
+    coordinates: [31.650600, -8.016150],
     openingHours: '08:00 – 18:00',
     services: ['Salles de cours', 'Bureaux professeurs', 'Bibliothèque spécialisée'],
-    description: 'Département de Mathématiques et Informatique'
+    description: 'Département de Mathématiques'
   },
   {
     id: 'dept-physique',
@@ -336,20 +336,20 @@ const BUILDINGS = [
     code: 'PHYS',
     department: 'Physique',
     category: 'department',
-    coordinates: [31.6515, -8.0142],
+    coordinates: [31.648972, -8.016278],
     openingHours: '08:00 – 18:00',
     services: ['Salles de cours', 'Bureaux professeurs', 'Salle de TP', 'Instrumentation'],
     description: 'Département de Physique'
   },
   {
     id: 'dept-humanites',
-    name: 'Département Humanités',
-    nameEn: 'Humanities Department',
-    nameAr: 'قسم العلوم الإنسانية',
+    name: 'Département Humanités & Langues',
+    nameEn: 'Humanities & Languages Department',
+    nameAr: 'قسم العلوم الإنسانية واللغات',
     code: 'HUM',
     department: 'Humanités',
     category: 'department',
-    coordinates: [31.6520, -8.0125],
+    coordinates: [31.648900, -8.015150],
     openingHours: '08:00 – 18:00',
     services: ['Salles de cours', 'Bureaux professeurs', 'Salle multimédia', 'Langues'],
     description: 'Département des Sciences Humaines et Sociales'
@@ -364,7 +364,7 @@ const BUILDINGS = [
     code: 'LCHI',
     department: 'Chimie',
     category: 'lab',
-    coordinates: [31.6508, -8.0098],
+    coordinates: [31.648000, -8.015300],
     openingHours: '08:00 – 17:00',
     services: ['TP Chimie organique', 'TP Chimie analytique', 'Recherche', 'Équipements spécialisés'],
     description: 'Laboratoire de Chimie analytique et organique'
@@ -377,7 +377,7 @@ const BUILDINGS = [
     code: 'LBIO',
     department: 'Biologie',
     category: 'lab',
-    coordinates: [31.6503, -8.0147],
+    coordinates: [31.649650, -8.015200],
     openingHours: '08:00 – 17:00',
     services: ['TP Biologie cellulaire', 'Microscopes', 'Recherche', 'Biochimie'],
     description: 'Laboratoire de Sciences de la Vie'
@@ -390,20 +390,20 @@ const BUILDINGS = [
     code: 'LPHY',
     department: 'Physique',
     category: 'lab',
-    coordinates: [31.6518, -8.0152],
+    coordinates: [31.648950, -8.016450],
     openingHours: '08:00 – 17:00',
     services: ['TP Optique', 'TP Électronique', 'TP Mécanique', 'Recherche'],
     description: 'Laboratoire de Physique expérimentale'
   },
   {
     id: 'labo-informatique',
-    name: 'Laboratoire Informatique',
-    nameEn: 'Computer Lab',
-    nameAr: 'مختبر الإعلاميات',
+    name: 'Laboratoire Informatique & IA',
+    nameEn: 'Computer & AI Lab',
+    nameAr: 'مختبر الإعلاميات والذكاء الاصطناعي',
     code: 'LINF',
     department: 'Informatique',
     category: 'lab',
-    coordinates: [31.6513, -8.0114],
+    coordinates: [31.650800, -8.016250],
     openingHours: '08:00 – 18:00',
     services: ['TP Programmation', '50 postes', 'Internet haut débit', 'Réseaux', 'IA & Data Science'],
     description: 'Laboratoire Informatique, Réseaux et Intelligence Artificielle'
@@ -416,7 +416,7 @@ const BUILDINGS = [
     code: 'LGEO',
     department: 'Géologie',
     category: 'lab',
-    coordinates: [31.6508, -8.0157],
+    coordinates: [31.649000, -8.014250],
     openingHours: '08:00 – 17:00',
     services: ['TP Géologie', 'Cartographie SIG', 'Collection de roches', 'Microscopes pétrographiques'],
     description: 'Laboratoire de Géologie et Sciences de la Terre'
@@ -431,7 +431,7 @@ const BUILDINGS = [
     code: 'SPORT',
     department: null,
     category: 'sports',
-    coordinates: [31.6525, -8.0130],
+    coordinates: [31.650900, -8.016400],
     openingHours: '08:00 – 20:00',
     services: ['Football', 'Basketball', 'Volleyball', 'Athlétisme', 'Tennis de table'],
     description: 'Complexe sportif universitaire'
