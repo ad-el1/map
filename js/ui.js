@@ -18,6 +18,23 @@ function showSection(id) {
   });
 }
 
+/* ─── Bottom-sheet expand / collapse (mobile) ─────────────────────────────── */
+function expandPanel() {
+  const p = document.getElementById('panel');
+  if (p) p.classList.add('expanded');
+  document.body.classList.add('panel-expanded');
+}
+function collapsePanel() {
+  const p = document.getElementById('panel');
+  if (p) p.classList.remove('expanded');
+  document.body.classList.remove('panel-expanded');
+}
+function togglePanel() {
+  const p = document.getElementById('panel');
+  if (p && p.classList.contains('expanded')) collapsePanel();
+  else expandPanel();
+}
+
 /* ─── Toast ───────────────────────────────────────────────────────────────── */
 let _toastTimer;
 function showToast(msg, type) {
@@ -92,6 +109,7 @@ function showBuildingDetails(building) {
   updateStarBtn(building.id);
 
   showSection('building-details');
+  expandPanel();
 }
 
 /* ─── Dark mode ───────────────────────────────────────────────────────────── */
@@ -102,7 +120,7 @@ function toggleDark() {
 
 function applyDarkMode(on) {
   document.body.classList.toggle('dark', on);
-  applyTileLayer();
+  applyMapTheme();
   document.getElementById('sun-icon').style.display  = on ? 'none'  : 'block';
   document.getElementById('moon-icon').style.display = on ? 'block' : 'none';
   try { localStorage.setItem(LS_DARK, on ? '1' : '0'); } catch (_) {}
@@ -312,6 +330,7 @@ function showNearMe() {
   });
 
   showSection('nearme-panel');
+  expandPanel();
 
   // Fit map to these 5 buildings
   const bounds = L.latLngBounds([from, ...sorted.map(({ b }) => b.coordinates)]).pad(0.15);
@@ -336,6 +355,7 @@ function updateOfflineBanner(offline) {
   const banner = document.getElementById('offline-banner');
   if (!banner) return;
   banner.style.display = offline ? 'flex' : 'none';
+  document.body.classList.toggle('offline', offline);
 }
 
 /* ─── Event binding ───────────────────────────────────────────────────────── */
@@ -353,7 +373,16 @@ function bindEvents() {
     clearRoute();
     deselectBuilding();
     showSection('welcome-panel');
+    collapsePanel();
   });
+
+  // Bottom-sheet handle / peek bar (mobile)
+  const handle = document.getElementById('panel-handle');
+  handle.addEventListener('click', togglePanel);
+  handle.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); togglePanel(); }
+  });
+  document.getElementById('sheet-peek').addEventListener('click', expandPanel);
 
   // Locate
   document.getElementById('locate-btn').addEventListener('click', locateUser);
@@ -423,6 +452,7 @@ function bindEvents() {
     deselectBuilding();
     clearRoute();
     showSection('welcome-panel');
+    collapsePanel();
   });
 
   // Close directions
@@ -430,7 +460,7 @@ function bindEvents() {
     clearRoute();
     APP_STATE.selectedBuilding
       ? showBuildingDetails(APP_STATE.selectedBuilding)
-      : showSection('welcome-panel');
+      : (showSection('welcome-panel'), collapsePanel());
   });
 
   // Near me button
@@ -439,18 +469,17 @@ function bindEvents() {
   // Close near me
   document.getElementById('close-nearme').addEventListener('click', () => {
     showSection('welcome-panel');
+    collapsePanel();
   });
 
-  // Panel swipe-down (mobile)
+  // Bottom-sheet swipe (mobile): down → collapse, up → expand
   let _touchY = 0;
   const panel = document.getElementById('panel');
   panel.addEventListener('touchstart', e => { _touchY = e.touches[0].clientY; }, { passive: true });
   panel.addEventListener('touchend',   e => {
-    if (e.changedTouches[0].clientY - _touchY > 80) {
-      clearRoute();
-      deselectBuilding();
-      showSection('welcome-panel');
-    }
+    const dy = e.changedTouches[0].clientY - _touchY;
+    if (dy > 70)      collapsePanel();
+    else if (dy < -50) expandPanel();
   }, { passive: true });
 }
 
@@ -497,9 +526,9 @@ function initApp() {
   renderWelcomeExtras();
   showSection('welcome-panel');
 
-  // Leaflet fires 'load' during the constructor (before any listener can be attached),
-  // so we hide the loading screen with a short delay after initMap() completes.
-  setTimeout(hideLoadingScreen, 800);
+  // The tile layer's first 'load' hides the loading screen (see applyTileLayer);
+  // this is just a safety net if tiles are slow or the network is down.
+  setTimeout(hideLoadingScreen, 4000);
 }
 
 document.addEventListener('DOMContentLoaded', initApp);

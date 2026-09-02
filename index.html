@@ -2,7 +2,7 @@
 <html lang="fr" dir="ltr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#2563eb" />
   <meta name="description" content="Navigation interactive du campus FSSM – Faculté des Sciences Semlalia, Marrakech" />
   <meta name="mobile-web-app-capable" content="yes" />
@@ -133,7 +133,11 @@
 
   <!-- ── Panel ────────────────────────────────────────────────────────────── -->
   <aside class="panel" id="panel" aria-label="Informations">
-    <div class="panel-handle" id="panel-handle" role="presentation"></div>
+    <div class="panel-handle" id="panel-handle" role="button" tabindex="0" aria-label="Ouvrir ou fermer le panneau"></div>
+    <button class="sheet-peek" id="sheet-peek" aria-label="Ouvrir le panneau">
+      <span class="sheet-peek-title">🎓 FSSM Campus</span>
+      <span class="sheet-peek-hint" data-i18n="sheetPeekHint">Glissez vers le haut</span>
+    </button>
 
     <!-- Welcome -->
     <div class="panel-section" id="welcome-panel">

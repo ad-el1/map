@@ -143,5 +143,6 @@ function showDirections(building) {
   }).join('');
 
   showSection('directions-panel');
+  expandPanel();
   APP_STATE.map.fitBounds(L.latLngBounds([from, to]).pad(0.25), { animate: true });
 }

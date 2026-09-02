@@ -2,9 +2,10 @@
 /* ─── Constants ───────────────────────────────────────────────────────────── */
 const CAMPUS_CENTER = [31.6490, -8.0155];
 const MAIN_ENTRANCE = [31.648194, -8.014417];
-const TILE_LIGHT = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
-const TILE_DARK  = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
-const TILE_ATTR  = '© <a href="https://carto.com/">CARTO</a> © <a href="https://openstreetmap.org/copyright">OSM</a>';
+// OpenStreetMap standard tiles — no API key required. Dark mode is a CSS filter (see style.css).
+const TILE_URL  = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+const TILE_ATTR = '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+const TILE_MAX_ZOOM = 19;
 
 // Exact boundary polygon of Faculté des Sciences Semlalia (OSM way 299506577)
 const FSSM_BOUNDARY = [
@@ -40,7 +41,7 @@ function initMap() {
     center: CAMPUS_CENTER,
     zoom: 17,
     minZoom: 16,
-    maxZoom: 20,
+    maxZoom: TILE_MAX_ZOOM,
     maxBounds: campusBounds.pad(0.35),
     maxBoundsViscosity: 0.85,
     zoomControl: false,
@@ -48,7 +49,7 @@ function initMap() {
   });
 
   applyTileLayer();
-  applyCampusMask();
+  applyMapTheme();
   renderMarkers();
 
   APP_STATE.map.on('click', () => {
@@ -56,16 +57,22 @@ function initMap() {
   });
 }
 
+// Single OSM layer, created once. Light/dark is handled by a CSS filter on #map.
 function applyTileLayer() {
-  if (!APP_STATE.map) return; // called before initMap() during pref load — skip safely
-  if (APP_STATE.tileLayer) APP_STATE.map.removeLayer(APP_STATE.tileLayer);
-  APP_STATE.tileLayer = L.tileLayer(APP_STATE.darkMode ? TILE_DARK : TILE_LIGHT, {
+  if (!APP_STATE.map || APP_STATE.tileLayer) return;
+  APP_STATE.tileLayer = L.tileLayer(TILE_URL, {
     attribution: TILE_ATTR,
-    subdomains: 'abcd',
-    maxZoom: 20,
+    maxZoom: TILE_MAX_ZOOM,
     crossOrigin: true,
   }).addTo(APP_STATE.map);
+  APP_STATE.tileLayer.once('load', hideLoadingScreen);
+  applyCampusMask();
+}
 
+// Toggle the dark-map filter and recolor the campus mask.
+function applyMapTheme() {
+  const el = document.getElementById('map');
+  if (el) el.classList.toggle('map-dark', !!APP_STATE.darkMode);
   applyCampusMask();
 }
 

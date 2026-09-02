@@ -51,6 +51,7 @@ const STRINGS = {
     buildingNotFound: 'Bâtiment introuvable',
     addFavAria: 'Ajouter aux favoris', removeFavAria: 'Retirer des favoris',
     loading: 'Chargement de la carte…',
+    sheetPeekHint: 'Glissez vers le haut',
   },
   en: {
     appTitle: 'FSSM Campus',
@@ -90,6 +91,7 @@ const STRINGS = {
     buildingNotFound: 'Building not found',
     addFavAria: 'Add to favorites', removeFavAria: 'Remove from favorites',
     loading: 'Loading map…',
+    sheetPeekHint: 'Swipe up',
   },
   ar: {
     appTitle: 'حرم FSSM',
@@ -129,6 +131,7 @@ const STRINGS = {
     buildingNotFound: 'المبنى غير موجود',
     addFavAria: 'إضافة إلى المفضلة', removeFavAria: 'إزالة من المفضلة',
     loading: 'جارٍ تحميل الخريطة…',
+    sheetPeekHint: 'اسحب للأعلى',
   },
 };
 

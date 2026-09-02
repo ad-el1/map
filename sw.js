@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_VERSION = 'v3';
+const CACHE_VERSION = 'v4';
 const STATIC_CACHE  = `fssm-static-${CACHE_VERSION}`;
 const TILE_CACHE    = `fssm-tiles-${CACHE_VERSION}`;
 const MAX_TILES     = 350;
@@ -48,8 +48,8 @@ self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
   const url = new URL(event.request.url);
 
-  // Map tiles → network-first, fall back to cache
-  if (url.hostname.includes('basemaps.cartocdn.com')) {
+  // Map tiles (OpenStreetMap) → network-first, fall back to cache
+  if (url.hostname.includes('tile.openstreetmap.org')) {
     event.respondWith(networkFirst(event.request, TILE_CACHE));
     return;
   }
