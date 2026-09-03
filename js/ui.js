@@ -16,6 +16,8 @@ function showSection(id) {
     const el = document.getElementById(sid);
     if (el) el.style.display = sid === id ? 'block' : 'none';
   });
+  const p = document.getElementById('panel');
+  if (p) p.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 /* ─── Bottom-sheet expand / collapse (mobile) ─────────────────────────────── */
