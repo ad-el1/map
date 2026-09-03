@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_VERSION = 'v9';
+const CACHE_VERSION = 'v11';
 const STATIC_CACHE  = `fssm-static-${CACHE_VERSION}`;
 const TILE_CACHE    = `fssm-tiles-${CACHE_VERSION}`;
 const MAX_TILES     = 350;
@@ -55,7 +55,7 @@ self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
 
   // Map tiles (OpenStreetMap) → network-first, fall back to cache
-  if (url.hostname.includes('tile.openstreetmap.org')) {
+  if (url.hostname.includes('openstreetmap.org')) {
     event.respondWith(networkFirst(event.request, TILE_CACHE));
     return;
   }
@@ -66,8 +66,8 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Everything else → cache-first
-  event.respondWith(cacheFirst(event.request, STATIC_CACHE));
+  // App static assets (HTML, CSS, JS) → network-first so UI updates apply instantly, offline falls back to cache
+  event.respondWith(networkFirst(event.request, STATIC_CACHE));
 });
 
 async function cacheFirst(request, cacheName) {
