@@ -520,6 +520,42 @@ function bindEvents() {
     collapsePanel();
   });
 
+  // Sidebar interactive stat cards (category filters)
+  document.querySelectorAll('.stat-card[data-category]').forEach(card => {
+    const handleFilter = () => {
+      const cat = card.dataset.category;
+      const targetBtn = document.querySelector(`.cat-btn[data-category="${cat}"]`);
+      if (targetBtn) {
+        targetBtn.click();
+      } else {
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+        APP_STATE.activeCategory = cat;
+        updateMarkerVisibility(cat);
+      }
+      document.querySelectorAll('.stat-card').forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+    };
+    card.addEventListener('click', handleFilter);
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleFilter(); }
+    });
+  });
+
+  // Landmark cards → select building and navigate
+  document.querySelectorAll('.landmark-card[data-building]').forEach(card => {
+    const handleSelect = () => {
+      const bId = card.dataset.building;
+      const b = BUILDINGS.find(x => x.id === bId);
+      if (b && APP_STATE.markers && APP_STATE.markers[b.id]) {
+        selectBuilding(b, APP_STATE.markers[b.id]);
+      }
+    };
+    card.addEventListener('click', handleSelect);
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSelect(); }
+    });
+  });
+
   // Bottom-sheet swipe (mobile): down → collapse, up → expand
   let _touchY = 0;
   const panel = document.getElementById('panel');

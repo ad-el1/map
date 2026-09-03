@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=11" />
 </head>
 <body>
 
@@ -167,33 +167,106 @@
           <img class="welcome-logo-img" src="icons/logo-fssm.png"
                alt="Faculté des Sciences Semlalia — Université Cadi Ayyad, Marrakech" />
         </div>
-        <h2 data-i18n="appTitle">FSSM Campus</h2>
-        <p data-i18n="welcomeSubtitle">Faculté des Sciences Semlalia, Marrakech</p>
+        <h2 class="welcome-title" data-i18n="appTitle">FSSM Campus</h2>
+        <div class="welcome-tag">Faculté des Sciences Semlalia · Marrakech</div>
+        <p class="welcome-univ">Université Cadi Ayyad</p>
       </div>
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-number" id="stat-buildings">26</div>
+
+      <!-- Interactive Quick-Filter Cards -->
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card" data-category="all" role="button" tabindex="0" title="Voir tous les bâtiments">
+          <div class="stat-top">
+            <span class="stat-icon">📍</span>
+            <div class="stat-number" id="stat-buildings">26</div>
+          </div>
           <div class="stat-label" data-i18n="statBuildings">Bâtiments</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-number" id="stat-amphis">11</div>
-          <div class="stat-label" data-i18n="statAmphis">Amphithéâtres</div>
+        <div class="stat-card" data-category="amphitheater" role="button" tabindex="0" title="Filtrer les amphithéâtres">
+          <div class="stat-top">
+            <span class="stat-icon">🏛️</span>
+            <div class="stat-number" id="stat-amphis">11</div>
+          </div>
+          <div class="stat-label" data-i18n="statAmphis">Amphis</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-number" id="stat-depts">8</div>
+        <div class="stat-card" data-category="department" role="button" tabindex="0" title="Filtrer les départements">
+          <div class="stat-top">
+            <span class="stat-icon">🎓</span>
+            <div class="stat-number" id="stat-depts">8</div>
+          </div>
           <div class="stat-label" data-i18n="statDepts">Départements</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-number" id="stat-buvettes">2</div>
+        <div class="stat-card" data-category="restaurant" role="button" tabindex="0" title="Filtrer la restauration">
+          <div class="stat-top">
+            <span class="stat-icon">🍽️</span>
+            <div class="stat-number" id="stat-buvettes">2</div>
+          </div>
           <div class="stat-label" data-i18n="cat_restaurant">Restauration</div>
         </div>
       </div>
 
-      <!-- Near me button -->
+      <!-- Quick Action: Near me -->
       <button class="btn-nearme" id="nearme-btn">
         <span class="nearme-icon-el">📍</span>
         <span data-i18n="nearMe">Qu'est-ce qui est près de moi ?</span>
       </button>
+
+      <!-- Campus Highlights (Explorer) -->
+      <div class="campus-highlights" id="campus-highlights">
+        <div class="section-header">
+          <h4 class="section-label">Lieux clés du campus</h4>
+          <span class="section-sublabel">Accès direct</span>
+        </div>
+        <div class="landmark-list" id="landmark-list">
+          <div class="landmark-card" data-building="biblio" role="button" tabindex="0">
+            <div class="landmark-icon-wrap am-biblio">📚</div>
+            <div class="landmark-info">
+              <div class="landmark-name">Bibliothèque Universitaire</div>
+              <div class="landmark-desc">Ouvrages, salles de révision & mémoires</div>
+            </div>
+            <span class="landmark-arrow">›</span>
+          </div>
+          <div class="landmark-card" data-building="dept-info" role="button" tabindex="0">
+            <div class="landmark-icon-wrap am-dept">💻</div>
+            <div class="landmark-info">
+              <div class="landmark-name">Centre Ibn Jaber (Informatique)</div>
+              <div class="landmark-desc">Dép. Informatique, amphis & salles TP</div>
+            </div>
+            <span class="landmark-arrow">›</span>
+          </div>
+          <div class="landmark-card" data-building="restaurant" role="button" tabindex="0">
+            <div class="landmark-icon-wrap am-resto">🍽️</div>
+            <div class="landmark-info">
+              <div class="landmark-name">Buvette Étudiants</div>
+              <div class="landmark-desc">Cafétéria, terrasse & détente</div>
+            </div>
+            <span class="landmark-arrow">›</span>
+          </div>
+          <div class="landmark-card" data-building="decanat" role="button" tabindex="0">
+            <div class="landmark-icon-wrap am-admin">🏢</div>
+            <div class="landmark-info">
+              <div class="landmark-name">Décanat & Administration</div>
+              <div class="landmark-desc">Direction de la faculté & services</div>
+            </div>
+            <span class="landmark-arrow">›</span>
+          </div>
+          <div class="landmark-card" data-building="amphi-1" role="button" tabindex="0">
+            <div class="landmark-icon-wrap am-amphi">🏛️</div>
+            <div class="landmark-info">
+              <div class="landmark-name">Amphithéâtres I à VI</div>
+              <div class="landmark-desc">Cour centrale des grands amphis</div>
+            </div>
+            <span class="landmark-arrow">›</span>
+          </div>
+          <div class="landmark-card" data-building="extensions" role="button" tabindex="0">
+            <div class="landmark-icon-wrap am-ext">🎓</div>
+            <div class="landmark-info">
+              <div class="landmark-name">Extensions (Salles de cours)</div>
+              <div class="landmark-desc">Salles d'enseignement & travaux dirigés</div>
+            </div>
+            <span class="landmark-arrow">›</span>
+          </div>
+        </div>
+      </div>
 
       <!-- Favorites -->
       <div id="favorites-section" style="display:none">
@@ -211,7 +284,10 @@
         <div class="mini-cards" id="recent-list"></div>
       </div>
 
-      <p class="tip" data-i18n="tip">Appuyez sur un bâtiment pour voir les détails</p>
+      <div class="tip-callout">
+        <span class="tip-callout-icon">💡</span>
+        <span class="tip-callout-text" data-i18n="tip">Appuyez sur un bâtiment pour voir son itinéraire piéton</span>
+      </div>
     </div>
 
     <!-- Building details -->
