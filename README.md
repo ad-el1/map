@@ -7,14 +7,14 @@ A mobile-first **Progressive Web App** for navigating the campus of **Faculté d
 ## Features
 
 ### Interactive Map
-- Campus centered at **31.6482, -8.0125** (Bd Prince My Abdellah, Marrakech)
-- **32 building markers** colour-coded by category with custom emoji pins
+- Campus centered at **31.6490, -8.0155** (Bd Prince My Abdellah, Marrakech)
+- **26 building markers** colour-coded by category with custom emoji pins
 - Zoom, pan, and tap any building for details
 - **CartoDB Positron** (light) and **Dark Matter** (dark) tile layers
 
 ### Search & Filter
 - Real-time search by name, code, or department (French, English, Arabic)
-- One-tap **category filters**: Amphithéâtres, Départements, Labos, Bibliothèque, Restauration, Administration, Sport, Parking
+- One-tap **category filters**: Amphithéâtres, Départements, Bibliothèque, Restauration, Administration, Parking
 - Distance from user shown next to each result
 
 ### User Location
@@ -130,27 +130,19 @@ Then open `http://localhost:8080` (or the port shown).
 
 ## Building Data
 
-All coordinates in `data/buildings.js` are **approximate test values** distributed within ~500 m of campus centre. They are labelled `// TEST DATA` at the top of the file.
-
-To replace with real coordinates:
-
-1. Open `data/buildings.js`
-2. For each building, update the `coordinates: [lat, lng]` field
-3. No other files need to change
+Coordinates in `data/buildings.js` are based on real on-campus GPS survey measurements centered around **Pavillon Central** (31.6490, -8.0155) and **Porte 1** (31.648194, -8.014417).
 
 ### Buildings included
 
 | Category | Count | Examples |
 |---|---|---|
-| Amphithéâtres | 12 | Amphi I–VIII, Amphi A–D |
-| Départements | 7 | Biologie, Chimie, Géologie, Info, Maths, Physique, Humanités |
-| Laboratoires | 5 | Labo Chimie, Biologie, Physique, Informatique, Géologie |
-| Administration | 2 | Présidence, Scolarité |
-| Restauration | 2 | Restaurant Universitaire, Cafétéria |
+| Amphithéâtres | 11 | Amphi I–X, Pavillon Central |
+| Départements & Salles | 8 | Biologie, Chimie, Géologie, Info, Maths, Physique, Humanités, Extensions |
+| Administration | 2 | Présidence & Décanat, Scolarité |
+| Restauration | 2 | Buvette Étudiants, Buvette Senior |
 | Bibliothèque | 1 | Bibliothèque Centrale |
-| Sport | 1 | Terrain de Sport |
 | Parking | 1 | Parking Étudiants |
-| Entrée | 1 | Entrée Principale |
+| Entrée | 1 | Entrée Principale (Porte 1) |
 
 ### Adding a new building
 
@@ -201,7 +193,7 @@ To replace with real coordinates:
 
 ## Roadmap
 
-- [ ] Replace mock coordinates with surveyed real positions
+- [x] Replace mock coordinates with surveyed real positions
 - [ ] Integrate OpenRouteService for turn-by-turn road routing (optional)
 - [ ] Add floor plans for multi-storey buildings
 - [ ] Department timetable integration

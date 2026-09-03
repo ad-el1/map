@@ -2,7 +2,7 @@
 <html lang="fr" dir="ltr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#2563eb" />
   <meta name="description" content="Navigation interactive du campus FSSM – Faculté des Sciences Semlalia, Marrakech" />
   <meta name="mobile-web-app-capable" content="yes" />
@@ -12,11 +12,12 @@
   <title>FSSM Campus Navigator</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
-  <link rel="apple-touch-icon" href="icons/icon.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -49,7 +50,7 @@
   <!-- ── Top bar ──────────────────────────────────────────────────────────── -->
   <header class="top-bar glass">
     <div class="top-bar-left">
-      <button class="icon-btn" id="menu-btn" aria-label="Menu">
+      <button class="icon-btn" id="menu-btn" aria-label="Menu" data-i18n-aria="ariaMenu">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <line x1="3" y1="6" x2="21" y2="6"/>
           <line x1="3" y1="12" x2="21" y2="12"/>
@@ -57,12 +58,12 @@
         </svg>
       </button>
       <div class="logo">
-        <span class="logo-icon">🎓</span>
-        <span class="logo-text">FSSM Nav</span>
+        <img class="logo-img" src="icons/logo-fssm.png"
+             alt="Faculté des Sciences Semlalia — Université Cadi Ayyad, Marrakech" />
       </div>
     </div>
     <div class="top-bar-right">
-      <button class="icon-btn" id="dark-mode-btn" aria-label="Basculer mode sombre">
+      <button class="icon-btn" id="dark-mode-btn" aria-label="Basculer le mode sombre" data-i18n-aria="ariaTheme">
         <svg id="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="5"/>
           <line x1="12" y1="1" x2="12" y2="3"/>
@@ -107,11 +108,9 @@
       <button class="cat-btn active" data-category="all"           data-i18n="all">Tous</button>
       <button class="cat-btn" data-category="amphitheater" data-i18n="cat_amphitheater">Amphithéâtres</button>
       <button class="cat-btn" data-category="department"   data-i18n="cat_department">Départements</button>
-      <button class="cat-btn" data-category="lab"          data-i18n="cat_lab">Labos</button>
       <button class="cat-btn" data-category="library"      data-i18n="cat_library">Bibliothèque</button>
       <button class="cat-btn" data-category="restaurant"   data-i18n="cat_restaurant">Restauration</button>
       <button class="cat-btn" data-category="administration" data-i18n="cat_administration">Admin</button>
-      <button class="cat-btn" data-category="sports"       data-i18n="cat_sports">Sport</button>
       <button class="cat-btn" data-category="parking"      data-i18n="cat_parking">Parking</button>
     </div>
     <div class="search-results" id="search-results" role="listbox" style="display:none"></div>
@@ -119,47 +118,74 @@
 
   <!-- ── Map controls ─────────────────────────────────────────────────────── -->
   <div class="map-controls">
-    <button class="map-btn" id="locate-btn" aria-label="Ma position">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="3"/>
-        <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
-      </svg>
-    </button>
-    <button class="map-btn" id="simulate-btn" aria-label="Simuler la position">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-        <circle cx="12" cy="9" r="2.5"/>
-      </svg>
-    </button>
+    <div class="mapctl">
+      <button class="mapctl-btn" id="zoom-in-btn" aria-label="Zoom avant" data-i18n-aria="ariaZoomIn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <line x1="12" y1="6" x2="12" y2="18"/><line x1="6" y1="12" x2="18" y2="12"/>
+        </svg>
+      </button>
+      <button class="mapctl-btn" id="zoom-out-btn" aria-label="Zoom arrière" data-i18n-aria="ariaZoomOut">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <line x1="6" y1="12" x2="18" y2="12"/>
+        </svg>
+      </button>
+    </div>
+    <div class="mapctl">
+      <button class="mapctl-btn" id="recenter-btn" aria-label="Recentrer sur le campus" data-i18n-aria="ariaRecenter">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-6 9 6v10a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1z" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button class="mapctl-btn" id="locate-btn" aria-label="Ma position" data-i18n-aria="ariaLocate">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3.2"/>
+          <path d="M12 2v3.5M12 18.5V22M2 12h3.5M18.5 12H22" stroke-linecap="round"/>
+          <circle cx="12" cy="12" r="8"/>
+        </svg>
+      </button>
+      <button class="mapctl-btn" id="simulate-btn" aria-label="Simuler la position (entrée)" data-i18n-aria="ariaSimulate">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+          <circle cx="12" cy="9" r="2.5"/>
+        </svg>
+      </button>
+    </div>
   </div>
 
   <!-- ── Panel ────────────────────────────────────────────────────────────── -->
   <aside class="panel" id="panel" aria-label="Informations">
-    <div class="panel-handle" id="panel-handle" role="presentation"></div>
+    <div class="panel-handle" id="panel-handle" role="button" tabindex="0" aria-label="Ouvrir ou fermer le panneau"></div>
+    <button class="sheet-peek" id="sheet-peek" aria-label="Ouvrir le panneau">
+      <span class="sheet-peek-title">🎓 FSSM Campus</span>
+      <span class="sheet-peek-hint" data-i18n="sheetPeekHint">Glissez vers le haut</span>
+    </button>
 
     <!-- Welcome -->
     <div class="panel-section" id="welcome-panel">
       <div class="welcome-header">
-        <div class="welcome-logo">🎓</div>
+        <div class="welcome-logo-wrap">
+          <img class="welcome-logo-img" src="icons/logo-fssm.png"
+               alt="Faculté des Sciences Semlalia — Université Cadi Ayyad, Marrakech" />
+        </div>
         <h2 data-i18n="appTitle">FSSM Campus</h2>
         <p data-i18n="welcomeSubtitle">Faculté des Sciences Semlalia, Marrakech</p>
       </div>
       <div class="stats-grid">
         <div class="stat-card">
-          <div class="stat-number">32</div>
+          <div class="stat-number" id="stat-buildings">26</div>
           <div class="stat-label" data-i18n="statBuildings">Bâtiments</div>
         </div>
         <div class="stat-card">
-          <div class="stat-number">7</div>
+          <div class="stat-number" id="stat-amphis">11</div>
+          <div class="stat-label" data-i18n="statAmphis">Amphithéâtres</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="stat-depts">8</div>
           <div class="stat-label" data-i18n="statDepts">Départements</div>
         </div>
         <div class="stat-card">
-          <div class="stat-number">5</div>
-          <div class="stat-label" data-i18n="statLabs">Labos</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">12</div>
-          <div class="stat-label" data-i18n="statAmphis">Amphithéâtres</div>
+          <div class="stat-number" id="stat-buvettes">2</div>
+          <div class="stat-label" data-i18n="cat_restaurant">Restauration</div>
         </div>
       </div>
 
@@ -193,8 +219,14 @@
       <div class="panel-header">
         <span class="building-badge" id="detail-badge"></span>
         <div class="panel-header-actions">
+          <button class="icon-btn" id="share-btn" aria-label="Partager ce bâtiment" data-i18n-aria="ariaShare" title="Partager">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+              <line x1="8.6" y1="10.5" x2="15.4" y2="6.5"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/>
+            </svg>
+          </button>
           <button class="icon-btn star-btn" id="star-btn" aria-label="Ajouter aux favoris" title="Ajouter aux favoris">☆</button>
-          <button class="icon-btn panel-close" id="close-details" aria-label="Fermer">
+          <button class="icon-btn panel-close" id="close-details" aria-label="Fermer" data-i18n-aria="ariaClose">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <line x1="18" y1="6" x2="6" y2="18"/>
               <line x1="6" y1="6" x2="18" y2="18"/>
@@ -205,7 +237,7 @@
       <h2 class="building-name" id="detail-name"></h2>
       <p class="building-dept" id="detail-dept"></p>
       <div class="info-row">
-        <div class="info-item">
+        <div class="info-item" id="detail-hours-item" style="display:none">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
           </svg>
@@ -219,7 +251,7 @@
           <span id="detail-distance"></span>
         </div>
       </div>
-      <div class="services-list" id="detail-services"></div>
+      <div class="services-list" id="detail-services" style="display:none"></div>
       <button class="btn-primary" id="get-directions-btn">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
           <polygon points="3 11 22 2 13 21 11 13 3 11"/>
@@ -265,7 +297,7 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <!-- ── Scripts (order matters) ───────────────────────────────────────────── -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="vendor/leaflet/leaflet.js"></script>
   <script src="data/buildings.js"></script>
   <script src="js/i18n.js"></script>
   <script src="js/map.js"></script>
@@ -273,9 +305,26 @@
   <script src="js/routing.js"></script>
   <script src="js/ui.js"></script>
   <script>
+    // Service worker with auto-update: when a new version is deployed, the new
+    // SW installs, activates (skipWaiting + clients.claim), and the page reloads
+    // once so everyone sees the same build without clearing the cache by hand.
     if ('serviceWorker' in navigator) {
+      // Only auto-reload on an *update* (a controller already existed), not first install
+      const _hadController = !!navigator.serviceWorker.controller;
+      let _reloading = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (_reloading || !_hadController) return;
+        _reloading = true;
+        location.reload();
+      });
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').catch(() => {});
+        navigator.serviceWorker.register('sw.js').then(reg => {
+          reg.update();
+          // Check for a newer version whenever the tab regains focus
+          document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') reg.update();
+          });
+        }).catch(() => {});
       });
     }
   </script>

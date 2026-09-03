@@ -1,8 +1,9 @@
 'use strict';
 
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v9';
 const STATIC_CACHE  = `fssm-static-${CACHE_VERSION}`;
 const TILE_CACHE    = `fssm-tiles-${CACHE_VERSION}`;
+const MAX_TILES     = 350;
 
 const STATIC_ASSETS = [
   './index.html',
@@ -15,9 +16,15 @@ const STATIC_ASSETS = [
   './js/routing.js',
   './js/ui.js',
   './icons/icon.svg',
-  './icons/icon-maskable.svg',
-  'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
-  'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
+  './icons/icon-192.png',
+  './icons/icon-512.png',
+  './icons/icon-maskable-512.png',
+  './icons/apple-touch-icon.png',
+  './icons/logo-fssm.png',
+  './vendor/leaflet/leaflet.js',
+  './vendor/leaflet/leaflet.css',
+  './vendor/leaflet/images/marker-icon.png',
+  './vendor/leaflet/images/marker-shadow.png',
 ];
 
 // ── Install: pre-cache static assets ─────────────────────────────
@@ -47,8 +54,8 @@ self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
   const url = new URL(event.request.url);
 
-  // Map tiles → network-first, fall back to cache
-  if (url.hostname.includes('basemaps.cartocdn.com')) {
+  // Map tiles (OpenStreetMap) → network-first, fall back to cache
+  if (url.hostname.includes('tile.openstreetmap.org')) {
     event.respondWith(networkFirst(event.request, TILE_CACHE));
     return;
   }
@@ -68,7 +75,7 @@ async function cacheFirst(request, cacheName) {
   if (cached) return cached;
   try {
     const response = await fetch(request);
-    if (response.ok) {
+    if (response.ok || response.type === 'opaque') {
       const cache = await caches.open(cacheName);
       cache.put(request, response.clone());
     }
@@ -81,13 +88,28 @@ async function cacheFirst(request, cacheName) {
 async function networkFirst(request, cacheName) {
   try {
     const response = await fetch(request);
-    if (response.ok) {
+    if (response.ok || response.type === 'opaque') {
       const cache = await caches.open(cacheName);
       cache.put(request, response.clone());
+      trimCache(cache, MAX_TILES);
     }
     return response;
   } catch {
     const cached = await caches.match(request);
     return cached || new Response('', { status: 503 });
+  }
+}
+
+async function trimCache(cache, maxItems) {
+  try {
+    const keys = await cache.keys();
+    if (keys.length > maxItems) {
+      const excess = keys.length - maxItems;
+      for (let i = 0; i < excess; i++) {
+        await cache.delete(keys[i]);
+      }
+    }
+  } catch {
+    // Silently ignore cache trim errors
   }
 }

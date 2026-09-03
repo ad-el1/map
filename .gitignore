@@ -1,0 +1,10 @@
+# Notes and internal documents
+*.docx
+map rapport.docx
+porte 1 31 38 53 5 N 8.txt
+
+# OS & editor metadata
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

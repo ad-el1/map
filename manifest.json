@@ -2,25 +2,24 @@
   "name": "FSSM Campus Navigator",
   "short_name": "FSSM Nav",
   "description": "Navigation interactive du campus Faculté des Sciences Semlalia, Marrakech",
-  "start_url": "./index.html",
+  "id": "/map/",
+  "start_url": "./?source=pwa",
+  "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#f8fafc",
   "theme_color": "#2563eb",
   "lang": "fr",
+  "dir": "auto",
   "icons": [
-    {
-      "src": "icons/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/icon-maskable.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "maskable"
-    }
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "screenshots": [
+    { "src": "screenshots/mobile.png", "sizes": "540x960", "type": "image/png", "form_factor": "narrow", "label": "Carte du campus FSSM" },
+    { "src": "screenshots/desktop.png", "sizes": "1280x800", "type": "image/png", "form_factor": "wide", "label": "Navigateur du campus FSSM" }
   ],
   "categories": ["education", "navigation"],
   "prefer_related_applications": false

@@ -16,6 +16,25 @@ function showSection(id) {
     const el = document.getElementById(sid);
     if (el) el.style.display = sid === id ? 'block' : 'none';
   });
+  const p = document.getElementById('panel');
+  if (p) p.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ─── Bottom-sheet expand / collapse (mobile) ─────────────────────────────── */
+function expandPanel() {
+  const p = document.getElementById('panel');
+  if (p) p.classList.add('expanded');
+  document.body.classList.add('panel-expanded');
+}
+function collapsePanel() {
+  const p = document.getElementById('panel');
+  if (p) p.classList.remove('expanded');
+  document.body.classList.remove('panel-expanded');
+}
+function togglePanel() {
+  const p = document.getElementById('panel');
+  if (p && p.classList.contains('expanded')) collapsePanel();
+  else expandPanel();
 }
 
 /* ─── Toast ───────────────────────────────────────────────────────────────── */
@@ -55,8 +74,16 @@ function showBuildingDetails(building) {
     ? `${t('deptLabel')}: ${building.department}`
     : (building.description || '');
 
-  // Hours
-  document.getElementById('detail-hours').textContent = building.openingHours;
+  // Hours (hidden if not specified)
+  const hoursItem = document.getElementById('detail-hours-item');
+  if (hoursItem) {
+    if (building.openingHours) {
+      document.getElementById('detail-hours').textContent = building.openingHours;
+      hoursItem.style.display = 'flex';
+    } else {
+      hoursItem.style.display = 'none';
+    }
+  }
 
   // Distance
   const distItem = document.getElementById('detail-distance-item');
@@ -68,14 +95,23 @@ function showBuildingDetails(building) {
     distItem.style.display = 'none';
   }
 
-  // Services
-  document.getElementById('detail-services').innerHTML =
-    (building.services || []).map(s => `<span class="service-tag">${s}</span>`).join('');
+  // Services (hidden if not specified)
+  const servicesEl = document.getElementById('detail-services');
+  if (servicesEl) {
+    if (building.services && building.services.length) {
+      servicesEl.innerHTML = building.services.map(s => `<span class="service-tag">${s}</span>`).join('');
+      servicesEl.style.display = 'flex';
+    } else {
+      servicesEl.innerHTML = '';
+      servicesEl.style.display = 'none';
+    }
+  }
 
   // Star button
   updateStarBtn(building.id);
 
   showSection('building-details');
+  expandPanel();
 }
 
 /* ─── Dark mode ───────────────────────────────────────────────────────────── */
@@ -86,9 +122,11 @@ function toggleDark() {
 
 function applyDarkMode(on) {
   document.body.classList.toggle('dark', on);
-  applyTileLayer();
+  applyMapTheme();
   document.getElementById('sun-icon').style.display  = on ? 'none'  : 'block';
   document.getElementById('moon-icon').style.display = on ? 'block' : 'none';
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', on ? '#0b1017' : '#2563eb');
   try { localStorage.setItem(LS_DARK, on ? '1' : '0'); } catch (_) {}
 }
 
@@ -102,7 +140,17 @@ function setLang(lang) {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     el.textContent = t(el.getAttribute('data-i18n'));
   });
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+    el.setAttribute('aria-label', t(el.getAttribute('data-i18n-aria')));
+  });
   document.getElementById('search-input').placeholder = t('searchPlaceholder');
+
+  // Document-level metadata
+  document.title = t('docTitle');
+  const md = document.querySelector('meta[name="description"]');
+  if (md) md.setAttribute('content', t('metaDesc'));
+  const ob = document.querySelector('#offline-banner span:last-child');
+  if (ob) ob.textContent = t('offlineBanner');
 
   document.querySelectorAll('.lang-btn').forEach(btn =>
     btn.classList.toggle('active', btn.dataset.lang === lang)
@@ -296,6 +344,7 @@ function showNearMe() {
   });
 
   showSection('nearme-panel');
+  expandPanel();
 
   // Fit map to these 5 buildings
   const bounds = L.latLngBounds([from, ...sorted.map(({ b }) => b.coordinates)]).pad(0.15);
@@ -320,6 +369,7 @@ function updateOfflineBanner(offline) {
   const banner = document.getElementById('offline-banner');
   if (!banner) return;
   banner.style.display = offline ? 'flex' : 'none';
+  document.body.classList.toggle('offline', offline);
 }
 
 /* ─── Event binding ───────────────────────────────────────────────────────── */
@@ -337,6 +387,35 @@ function bindEvents() {
     clearRoute();
     deselectBuilding();
     showSection('welcome-panel');
+    collapsePanel();
+  });
+
+  // Bottom-sheet handle / peek bar (mobile)
+  const handle = document.getElementById('panel-handle');
+  handle.addEventListener('click', togglePanel);
+  handle.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); togglePanel(); }
+  });
+  document.getElementById('sheet-peek').addEventListener('click', expandPanel);
+
+  // Zoom
+  const zoomIn  = document.getElementById('zoom-in-btn');
+  const zoomOut = document.getElementById('zoom-out-btn');
+  zoomIn.addEventListener('click',  () => APP_STATE.map && APP_STATE.map.zoomIn());
+  zoomOut.addEventListener('click', () => APP_STATE.map && APP_STATE.map.zoomOut());
+  if (APP_STATE.map) {
+    const syncZoomBtns = () => {
+      const z = APP_STATE.map.getZoom();
+      zoomIn.disabled  = z >= APP_STATE.map.getMaxZoom();
+      zoomOut.disabled = z <= APP_STATE.map.getMinZoom();
+    };
+    APP_STATE.map.on('zoomend', syncZoomBtns);
+    syncZoomBtns();
+  }
+
+  // Recenter on campus
+  document.getElementById('recenter-btn').addEventListener('click', () => {
+    if (APP_STATE.map) APP_STATE.map.flyToBounds(L.latLngBounds(FSSM_BOUNDARY), { padding: [40, 40], duration: 0.6 });
   });
 
   // Locate
@@ -397,6 +476,20 @@ function bindEvents() {
     if (APP_STATE.selectedBuilding) toggleFavorite(APP_STATE.selectedBuilding.id);
   });
 
+  // Share button
+  document.getElementById('share-btn').addEventListener('click', () => {
+    const b = APP_STATE.selectedBuilding;
+    if (!b) return;
+    const nameKey = APP_STATE.lang === 'en' ? 'nameEn' : APP_STATE.lang === 'ar' ? 'nameAr' : 'name';
+    const url = `${location.origin}${location.pathname}?b=${encodeURIComponent(b.id)}`;
+    const title = `${b[nameKey] || b.name} — ${t('appTitle')}`;
+    if (navigator.share) {
+      navigator.share({ title, url }).catch(() => {});
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(() => showToast(t('linkCopied') || 'Lien copié')).catch(() => {});
+    }
+  });
+
   // Get Directions (from building details)
   document.getElementById('get-directions-btn').addEventListener('click', () => {
     if (APP_STATE.selectedBuilding) showDirections(APP_STATE.selectedBuilding);
@@ -407,6 +500,7 @@ function bindEvents() {
     deselectBuilding();
     clearRoute();
     showSection('welcome-panel');
+    collapsePanel();
   });
 
   // Close directions
@@ -414,7 +508,7 @@ function bindEvents() {
     clearRoute();
     APP_STATE.selectedBuilding
       ? showBuildingDetails(APP_STATE.selectedBuilding)
-      : showSection('welcome-panel');
+      : (showSection('welcome-panel'), collapsePanel());
   });
 
   // Near me button
@@ -423,18 +517,17 @@ function bindEvents() {
   // Close near me
   document.getElementById('close-nearme').addEventListener('click', () => {
     showSection('welcome-panel');
+    collapsePanel();
   });
 
-  // Panel swipe-down (mobile)
+  // Bottom-sheet swipe (mobile): down → collapse, up → expand
   let _touchY = 0;
   const panel = document.getElementById('panel');
   panel.addEventListener('touchstart', e => { _touchY = e.touches[0].clientY; }, { passive: true });
   panel.addEventListener('touchend',   e => {
-    if (e.changedTouches[0].clientY - _touchY > 80) {
-      clearRoute();
-      deselectBuilding();
-      showSection('welcome-panel');
-    }
+    const dy = e.changedTouches[0].clientY - _touchY;
+    if (dy > 70)      collapsePanel();
+    else if (dy < -50) expandPanel();
   }, { passive: true });
 }
 
@@ -458,20 +551,42 @@ function loadStoredPrefs() {
   } catch (_) {}
 }
 
+function updateWelcomeStats() {
+  const bldgEl = document.getElementById('stat-buildings');
+  const amphEl = document.getElementById('stat-amphis');
+  const deptEl = document.getElementById('stat-depts');
+  const buvEl  = document.getElementById('stat-buvettes');
+  if (bldgEl) bldgEl.textContent = BUILDINGS.length;
+  if (amphEl) amphEl.textContent = BUILDINGS.filter(b => b.category === 'amphitheater').length;
+  if (deptEl) deptEl.textContent = BUILDINGS.filter(b => b.category === 'department').length;
+  if (buvEl)  buvEl.textContent  = BUILDINGS.filter(b => b.category === 'restaurant').length;
+}
+
 /* ─── App boot ────────────────────────────────────────────────────────────── */
 function initApp() {
   loadStoredPrefs();
+  setLang(APP_STATE.lang);   // sync <title>, meta, aria-labels to the active language
   loadFavorites();
   loadRecent();
   initMap();
   bindEvents();
   initNetworkHandlers();
+  updateWelcomeStats();
   renderWelcomeExtras();
   showSection('welcome-panel');
 
-  // Leaflet fires 'load' during the constructor (before any listener can be attached),
-  // so we hide the loading screen with a short delay after initMap() completes.
-  setTimeout(hideLoadingScreen, 800);
+  // Deep link: ?b=<building-id> opens that building's card
+  try {
+    const bid = new URLSearchParams(location.search).get('b');
+    if (bid) {
+      const b = BUILDINGS.find(x => x.id === bid);
+      if (b) setTimeout(() => selectBuilding(b, APP_STATE.markers[b.id]), 300);
+    }
+  } catch (_) {}
+
+  // The tile layer's first 'load' hides the loading screen (see applyTileLayer);
+  // this is just a safety net if tiles are slow or the network is down.
+  setTimeout(hideLoadingScreen, 4000);
 }
 
 document.addEventListener('DOMContentLoaded', initApp);
