@@ -1,7 +1,8 @@
 'use strict';
 /* ─── Constants ───────────────────────────────────────────────────────────── */
-const CAMPUS_CENTER = [31.6490, -8.0155];
-const MAIN_ENTRANCE = [31.648194, -8.014417];
+const CAMPUS_CENTER    = [31.6490, -8.0155];
+const PAVILLON_CENTRAL = [31.6490, -8.0155];
+const MAIN_ENTRANCE    = [31.648194, -8.014417];
 // OpenStreetMap standard tiles — no API key required. Dark mode is a CSS filter (see style.css).
 const TILE_URL  = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 const TILE_ATTR = '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
@@ -215,8 +216,8 @@ function setSimulating(on) {
   APP_STATE.simulating = on;
   document.getElementById('simulate-btn').classList.toggle('simulating', on);
   if (on) {
-    placeUserMarker(MAIN_ENTRANCE);
-    APP_STATE.map.setView(MAIN_ENTRANCE, 17, { animate: true });
+    placeUserMarker(PAVILLON_CENTRAL);
+    APP_STATE.map.setView(PAVILLON_CENTRAL, 17, { animate: true });
     showToast(t('locSimulated'));
     document.getElementById('locate-btn').classList.remove('active');
   } else {

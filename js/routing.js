@@ -258,8 +258,9 @@ function getNodeLabel(nodeKey) {
 }
 
 /* ─── Route builder ───────────────────────────────────────────────────────── */
-function buildCampusRoute(from, to, targetName) {
+function buildCampusRoute(from, to, targetName, originLabel) {
   const directDist = haversine(from, to);
+  const startName  = originLabel || (APP_STATE.simulating ? t('fromLabelSimulated') : t('fromLabel'));
 
   // Very close: walk directly
   if (directDist < 25) {
@@ -279,10 +280,10 @@ function buildCampusRoute(from, to, targetName) {
   const snapTo   = snapToWalkway(to);
 
   const rawPoints = [from];
-  const rawNames  = [t('fromLabel')];
+  const rawNames  = [startName];
   if (haversine(from, snapFrom.coord) > 6) {
     rawPoints.push(snapFrom.coord);
-    rawNames.push(t('fromLabel'));
+    rawNames.push(startName);
   }
 
   let bestSeq = null;
@@ -421,17 +422,21 @@ function showDirections(building) {
     showToast(t('noLocation'));
   }
 
-  const from = APP_STATE.userLocation;
+  const defaultFrom = typeof PAVILLON_CENTRAL !== 'undefined' ? PAVILLON_CENTRAL : [31.6490, -8.0155];
+  const from = APP_STATE.userLocation || defaultFrom;
   const to   = building.coordinates;
   if (!from || !to) { showToast(t('locUnavailable'), 'error'); return; }
 
   const nameKey = APP_STATE.lang === 'en' ? 'nameEn' : APP_STATE.lang === 'ar' ? 'nameAr' : 'name';
   const bName   = building[nameKey] || building.name;
 
-  const routeData = buildCampusRoute(from, to, bName);
+  const isSimulated = APP_STATE.simulating;
+  const fromLabel = isSimulated ? t('fromLabelSimulated') : t('fromLabel');
+
+  const routeData = buildCampusRoute(from, to, bName, fromLabel);
   drawRoute(routeData.points);
 
-  document.getElementById('route-from').textContent = t('fromLabel');
+  document.getElementById('route-from').textContent = fromLabel;
   document.getElementById('route-to').textContent   = `${t('toLabel')}: ${bName}`;
 
   document.getElementById('route-summary').innerHTML = `
