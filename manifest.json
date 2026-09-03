@@ -17,6 +17,10 @@
     { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
     { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
   ],
+  "screenshots": [
+    { "src": "screenshots/mobile.png", "sizes": "540x960", "type": "image/png", "form_factor": "narrow", "label": "Carte du campus FSSM" },
+    { "src": "screenshots/desktop.png", "sizes": "1280x800", "type": "image/png", "form_factor": "wide", "label": "Navigateur du campus FSSM" }
+  ],
   "categories": ["education", "navigation"],
   "prefer_related_applications": false
 }
