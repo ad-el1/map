@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_VERSION = 'v7';
+const CACHE_VERSION = 'v8';
 const STATIC_CACHE  = `fssm-static-${CACHE_VERSION}`;
 const TILE_CACHE    = `fssm-tiles-${CACHE_VERSION}`;
 const MAX_TILES     = 350;
@@ -21,8 +21,10 @@ const STATIC_ASSETS = [
   './icons/icon-maskable-512.png',
   './icons/apple-touch-icon.png',
   './icons/logo-fssm.png',
-  'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
-  'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
+  './vendor/leaflet/leaflet.js',
+  './vendor/leaflet/leaflet.css',
+  './vendor/leaflet/images/marker-icon.png',
+  './vendor/leaflet/images/marker-shadow.png',
 ];
 
 // ── Install: pre-cache static assets ─────────────────────────────
