@@ -256,7 +256,7 @@ const BUILDINGS = [
     code: 'PC',
     department: null,
     category: 'amphitheater',
-    coordinates: [31.648917, -8.015417],
+    coordinates: [31.648917, -8.015350],
     // openingHours: '08:00 – 20:00',
     // services: ['Grande salle de conférences', 'Cours magistraux', 'Capacité 200 places'],
     description: 'Pavillon central au cœur du campus'

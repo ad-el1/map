@@ -422,7 +422,7 @@ function showDirections(building) {
     showToast(t('noLocation'));
   }
 
-  const defaultFrom = typeof PAVILLON_CENTRAL !== 'undefined' ? PAVILLON_CENTRAL : [31.6490, -8.0155];
+  const defaultFrom = typeof PAVILLON_CENTRAL !== 'undefined' ? PAVILLON_CENTRAL : [31.648917, -8.015350];
   const from = APP_STATE.userLocation || defaultFrom;
   const to   = building.coordinates;
   if (!from || !to) { showToast(t('locUnavailable'), 'error'); return; }

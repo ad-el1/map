@@ -1,7 +1,7 @@
 'use strict';
 /* ─── Constants ───────────────────────────────────────────────────────────── */
-const CAMPUS_CENTER    = [31.6490, -8.0155];
-const PAVILLON_CENTRAL = [31.6490, -8.0155];
+const CAMPUS_CENTER    = [31.648917, -8.015350];
+const PAVILLON_CENTRAL = [31.648917, -8.015350];
 const MAIN_ENTRANCE    = [31.648194, -8.014417];
 // OpenStreetMap standard tiles — no API key required. Dark mode is a CSS filter (see style.css).
 const TILE_URL  = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
