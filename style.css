@@ -179,7 +179,11 @@ body.offline { --safe-top: 42px; }
   transition: background var(--transition), border-color var(--transition);
 }
 .top-bar-left, .top-bar-right { display: flex; align-items: center; gap: 10px; }
-.logo { display: flex; align-items: center; gap: 7px; }
+.logo { display: flex; align-items: center; }
+.logo-img {
+  display: block; height: 30px; width: auto;
+  background: #fff; border-radius: 7px; padding: 4px 8px;
+}
 .logo-icon { font-size: 22px; line-height: 1; }
 .logo-text { font-size: 17px; font-weight: 700; color: var(--primary); letter-spacing: -.3px; }
 
@@ -341,6 +345,10 @@ body.dark .mapctl { box-shadow: 0 2px 8px rgba(0,0,0,.55), 0 0 0 1px rgba(255,25
 /* ── Welcome panel ───────────────────────────────────────────────── */
 .welcome-header { text-align: center; padding: 6px 0 16px; }
 .welcome-logo { font-size: 40px; line-height: 1; margin-bottom: 8px; }
+.welcome-logo-img {
+  display: block; height: 44px; width: auto; margin: 0 auto 12px;
+  background: #fff; border-radius: 9px; padding: 7px 12px;
+}
 .welcome-header h2 { font-size: 22px; font-weight: 700; color: var(--primary); }
 .welcome-header p  { font-size: 13px; color: var(--text-secondary); margin-top: 3px; }
 
@@ -562,7 +570,8 @@ html[lang="ar"] { font-size: 15px; }
   .top-bar-right   { gap: 6px; flex-shrink: 0; }
   .lang-switcher   { padding: 2px; }
   .lang-btn        { padding: 4px 8px; }
-  .logo-text       { display: none; }          /* cap icon is enough on phones */
+  .logo-text       { display: none; }
+  .logo-img        { height: 25px; padding: 3px 6px; }
   .search-container { top: calc(76px + var(--safe-top)); }
   .stats-grid      { grid-template-columns: repeat(2, 1fr); }
 }
