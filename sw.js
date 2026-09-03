@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_VERSION = 'v5';
+const CACHE_VERSION = 'v6';
 const STATIC_CACHE  = `fssm-static-${CACHE_VERSION}`;
 const TILE_CACHE    = `fssm-tiles-${CACHE_VERSION}`;
 const MAX_TILES     = 350;
@@ -16,7 +16,10 @@ const STATIC_ASSETS = [
   './js/routing.js',
   './js/ui.js',
   './icons/icon.svg',
-  './icons/icon-maskable.svg',
+  './icons/icon-192.png',
+  './icons/icon-512.png',
+  './icons/icon-maskable-512.png',
+  './icons/apple-touch-icon.png',
   './icons/logo-fssm.png',
   'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
   'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
