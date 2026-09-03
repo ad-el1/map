@@ -33,17 +33,17 @@ const BUILDINGS = [
 
   // ── Administration ─────────────────────────────────────────────────────────
   {
-    id: 'presidence',
-    name: 'Présidence & Décanat',
-    nameEn: "Dean's Office & Administration",
-    nameAr: 'العمادة والإدارة',
-    code: 'ADM',
+    id: 'decanat',
+    name: 'Décanat',
+    nameEn: "Dean's Office",
+    nameAr: 'العمادة',
+    code: 'DEC',
     department: 'Administration',
     category: 'administration',
     coordinates: [31.648778, -8.014750],
     // openingHours: '08:30 – 16:30',
-    // services: ['Bureau du Doyen', 'Ressources Humaines', 'Finance', 'Protocole'],
-    description: 'Bâtiment administratif central et décanat de la faculté'
+    // services: ['Bureau du Doyen', 'Administration'],
+    description: 'Décanat de la faculté'
   },
   {
     id: 'scolarite',

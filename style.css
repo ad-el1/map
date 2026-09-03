@@ -508,26 +508,28 @@ body.dark .mapctl { box-shadow: 0 2px 8px rgba(0,0,0,.55), 0 0 0 1px rgba(255,25
    DESKTOP ≥ 768 px
 ═══════════════════════════════════════════════════════════════════ */
 @media (min-width: 768px) {
+  /* The map gets its own column — it never sits behind the side panel */
+  #map { right: calc(var(--panel-w) + 24px); }
+
   .panel {
-    top: calc(12px + var(--safe-top)); bottom: 12px; left: auto; right: 12px;
+    top: 12px; bottom: 12px; left: auto; right: 12px;
     width: var(--panel-w);
     border-radius: var(--radius); border: 1px solid var(--border);
     max-height: none;
     transform: none;                 /* always open on desktop */
+    background: var(--surface-solid); /* solid column, not glass over the map */
+    backdrop-filter: none; -webkit-backdrop-filter: none;
+    box-shadow: var(--shadow);
   }
   .panel-handle,
   .sheet-peek { display: none; }
   .panel-section:first-child { padding-top: 20px; }
 
-  /* Keep the floating chrome over the map only — never under the side panel */
-  .top-bar        { right: calc(var(--panel-w) + 24px); }
+  .top-bar         { right: calc(var(--panel-w) + 24px); }
   .search-container { right: calc(var(--panel-w) + 24px); }
-  .map-controls   { right: calc(var(--panel-w) + 24px); bottom: 40px; }
+  .map-controls    { right: calc(var(--panel-w) + 24px); bottom: 40px; }
   body.panel-expanded .map-controls { opacity: 1; pointer-events: auto; }
-  .toast          { bottom: 40px; }
-
-  /* Attribution sits to the left of the panel so it stays readable */
-  .leaflet-bottom.leaflet-right { right: calc(var(--panel-w) + 20px); }
+  .toast           { bottom: 40px; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════

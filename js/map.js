@@ -55,6 +55,13 @@ function initMap() {
   APP_STATE.map.on('click', () => {
     document.getElementById('search-results').style.display = 'none';
   });
+
+  // The map has its own column on desktop; keep Leaflet in sync when the
+  // viewport crosses the breakpoint or the window resizes.
+  const keepMapSized = () => APP_STATE.map && APP_STATE.map.invalidateSize({ pan: false });
+  setTimeout(keepMapSized, 100);
+  let _rz;
+  window.addEventListener('resize', () => { clearTimeout(_rz); _rz = setTimeout(keepMapSized, 150); });
 }
 
 // Single OSM layer, created once. Light/dark is handled by a CSS filter on #map.
