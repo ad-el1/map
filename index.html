@@ -107,11 +107,9 @@
       <button class="cat-btn active" data-category="all"           data-i18n="all">Tous</button>
       <button class="cat-btn" data-category="amphitheater" data-i18n="cat_amphitheater">Amphithéâtres</button>
       <button class="cat-btn" data-category="department"   data-i18n="cat_department">Départements</button>
-      <button class="cat-btn" data-category="lab"          data-i18n="cat_lab">Labos</button>
       <button class="cat-btn" data-category="library"      data-i18n="cat_library">Bibliothèque</button>
       <button class="cat-btn" data-category="restaurant"   data-i18n="cat_restaurant">Restauration</button>
       <button class="cat-btn" data-category="administration" data-i18n="cat_administration">Admin</button>
-      <button class="cat-btn" data-category="sports"       data-i18n="cat_sports">Sport</button>
       <button class="cat-btn" data-category="parking"      data-i18n="cat_parking">Parking</button>
     </div>
     <div class="search-results" id="search-results" role="listbox" style="display:none"></div>
@@ -125,7 +123,7 @@
         <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
       </svg>
     </button>
-    <button class="map-btn" id="simulate-btn" aria-label="Simuler la position">
+    <button class="map-btn" id="simulate-btn" aria-label="Simuler position (entrée)">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
         <circle cx="12" cy="9" r="2.5"/>
@@ -146,20 +144,20 @@
       </div>
       <div class="stats-grid">
         <div class="stat-card">
-          <div class="stat-number">32</div>
+          <div class="stat-number" id="stat-buildings">26</div>
           <div class="stat-label" data-i18n="statBuildings">Bâtiments</div>
         </div>
         <div class="stat-card">
-          <div class="stat-number">7</div>
+          <div class="stat-number" id="stat-amphis">11</div>
+          <div class="stat-label" data-i18n="statAmphis">Amphithéâtres</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="stat-depts">8</div>
           <div class="stat-label" data-i18n="statDepts">Départements</div>
         </div>
         <div class="stat-card">
-          <div class="stat-number">5</div>
-          <div class="stat-label" data-i18n="statLabs">Labos</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">12</div>
-          <div class="stat-label" data-i18n="statAmphis">Amphithéâtres</div>
+          <div class="stat-number" id="stat-buvettes">2</div>
+          <div class="stat-label" data-i18n="cat_restaurant">Restauration</div>
         </div>
       </div>
 

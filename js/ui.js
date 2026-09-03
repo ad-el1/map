@@ -458,6 +458,17 @@ function loadStoredPrefs() {
   } catch (_) {}
 }
 
+function updateWelcomeStats() {
+  const bldgEl = document.getElementById('stat-buildings');
+  const amphEl = document.getElementById('stat-amphis');
+  const deptEl = document.getElementById('stat-depts');
+  const buvEl  = document.getElementById('stat-buvettes');
+  if (bldgEl) bldgEl.textContent = BUILDINGS.length;
+  if (amphEl) amphEl.textContent = BUILDINGS.filter(b => b.category === 'amphitheater').length;
+  if (deptEl) deptEl.textContent = BUILDINGS.filter(b => b.category === 'department').length;
+  if (buvEl)  buvEl.textContent  = BUILDINGS.filter(b => b.category === 'restaurant').length;
+}
+
 /* ─── App boot ────────────────────────────────────────────────────────────── */
 function initApp() {
   loadStoredPrefs();
@@ -466,6 +477,7 @@ function initApp() {
   initMap();
   bindEvents();
   initNetworkHandlers();
+  updateWelcomeStats();
   renderWelcomeExtras();
   showSection('welcome-panel');
 

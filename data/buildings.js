@@ -77,29 +77,29 @@ const BUILDINGS = [
   // ── Restauration ───────────────────────────────────────────────────────────
   {
     id: 'restaurant',
-    name: 'Restaurant Universitaire',
-    nameEn: 'University Restaurant',
-    nameAr: 'المطعم الجامعي',
-    code: 'RU',
+    name: 'Buvette Étudiants',
+    nameEn: 'Student Cafeteria',
+    nameAr: 'مقصف الطلاب',
+    code: 'BE',
     department: null,
     category: 'restaurant',
-    coordinates: [31.650050, -8.016100],
-    openingHours: '11:30 – 14:30',
-    services: ['Déjeuner subventionné', 'Menu étudiant', 'Cafétéria annexe'],
-    description: 'Restaurant universitaire principal, repas subventionnés'
+    coordinates: [31.649722, -8.016306],
+    openingHours: '07:30 – 18:30',
+    services: ['Café & boissons', 'Sandwichs', 'Snacks', 'Restauration rapide', 'Espace étudiants'],
+    description: 'Buvette principale réservée aux étudiants'
   },
   {
     id: 'cafeteria',
-    name: 'Cafétéria / Buvette Senior',
-    nameEn: 'Main Cafeteria / Senior Snack',
-    nameAr: 'المقصف المركزي / مقصف الأساتذة',
-    code: 'CAF',
+    name: 'Buvette Senior (Enseignants & Personnel)',
+    nameEn: 'Faculty & Staff Cafeteria',
+    nameAr: 'مقصف الأساتذة والموظفين',
+    code: 'BS',
     department: null,
     category: 'restaurant',
     coordinates: [31.650278, -8.016250],
-    openingHours: '07:30 – 18:00',
-    services: ['Café & boissons', 'Sandwichs', 'Pâtisseries', 'Snacks', 'Terrasse'],
-    description: 'Buvette et cafétéria ouverte toute la journée'
+    openingHours: '07:30 – 17:30',
+    services: ['Café & boissons', 'Repas légers', 'Sandwichs', 'Terrasse'],
+    description: 'Buvette senior dédiée aux enseignants et au personnel'
   },
 
   // ── Amphithéâtres I–VIII ───────────────────────────────────────────────────
@@ -236,17 +236,17 @@ const BUILDINGS = [
     description: 'Amphithéâtre X (Amphi 10)'
   },
   {
-    id: 'amphi-c',
-    name: 'Amphithéâtres Extensions',
-    nameEn: 'Extension Lecture Halls',
-    nameAr: 'قاعات مدرجات الملحق',
+    id: 'extensions',
+    name: 'Extensions (Salles de cours)',
+    nameEn: 'Extensions (Classrooms)',
+    nameAr: 'الملحق (قاعات دراسية)',
     code: 'EXT',
     department: null,
-    category: 'amphitheater',
+    category: 'department',
     coordinates: [31.649528, -8.016833],
     openingHours: '08:00 – 20:00',
-    services: ['Cours magistraux', 'Salles de cours', 'Capacité 200 places'],
-    description: 'Bâtiment des extensions d amphithéâtres'
+    services: ['Salles de cours', 'Salles de TD', 'Capacité 40-60 places', 'Séances de travaux dirigés'],
+    description: 'Bâtiment des extensions regroupant des salles de cours et de TD (aucun amphithéâtre)'
   },
   {
     id: 'amphi-d',
@@ -323,10 +323,10 @@ const BUILDINGS = [
     code: 'MATH',
     department: 'Mathématiques',
     category: 'department',
-    coordinates: [31.650600, -8.016150],
+    coordinates: [31.648389, -8.015639],
     openingHours: '08:00 – 18:00',
     services: ['Salles de cours', 'Bureaux professeurs', 'Bibliothèque spécialisée'],
-    description: 'Département de Mathématiques'
+    description: 'Département de Mathématiques, situé entre les départements de Physique et de Chimie'
   },
   {
     id: 'dept-physique',
@@ -353,87 +353,5 @@ const BUILDINGS = [
     openingHours: '08:00 – 18:00',
     services: ['Salles de cours', 'Bureaux professeurs', 'Salle multimédia', 'Langues'],
     description: 'Département des Sciences Humaines et Sociales'
-  },
-
-  // ── Laboratoires ───────────────────────────────────────────────────────────
-  {
-    id: 'labo-chimie',
-    name: 'Laboratoire de Chimie',
-    nameEn: 'Chemistry Laboratory',
-    nameAr: 'مختبر الكيمياء',
-    code: 'LCHI',
-    department: 'Chimie',
-    category: 'lab',
-    coordinates: [31.648000, -8.015300],
-    openingHours: '08:00 – 17:00',
-    services: ['TP Chimie organique', 'TP Chimie analytique', 'Recherche', 'Équipements spécialisés'],
-    description: 'Laboratoire de Chimie analytique et organique'
-  },
-  {
-    id: 'labo-biologie',
-    name: 'Laboratoire de Biologie',
-    nameEn: 'Biology Laboratory',
-    nameAr: 'مختبر علم الأحياء',
-    code: 'LBIO',
-    department: 'Biologie',
-    category: 'lab',
-    coordinates: [31.649650, -8.015200],
-    openingHours: '08:00 – 17:00',
-    services: ['TP Biologie cellulaire', 'Microscopes', 'Recherche', 'Biochimie'],
-    description: 'Laboratoire de Sciences de la Vie'
-  },
-  {
-    id: 'labo-physique',
-    name: 'Laboratoire de Physique',
-    nameEn: 'Physics Laboratory',
-    nameAr: 'مختبر الفيزياء',
-    code: 'LPHY',
-    department: 'Physique',
-    category: 'lab',
-    coordinates: [31.648950, -8.016450],
-    openingHours: '08:00 – 17:00',
-    services: ['TP Optique', 'TP Électronique', 'TP Mécanique', 'Recherche'],
-    description: 'Laboratoire de Physique expérimentale'
-  },
-  {
-    id: 'labo-informatique',
-    name: 'Laboratoire Informatique & IA',
-    nameEn: 'Computer & AI Lab',
-    nameAr: 'مختبر الإعلاميات والذكاء الاصطناعي',
-    code: 'LINF',
-    department: 'Informatique',
-    category: 'lab',
-    coordinates: [31.650800, -8.016250],
-    openingHours: '08:00 – 18:00',
-    services: ['TP Programmation', '50 postes', 'Internet haut débit', 'Réseaux', 'IA & Data Science'],
-    description: 'Laboratoire Informatique, Réseaux et Intelligence Artificielle'
-  },
-  {
-    id: 'labo-geologie',
-    name: 'Laboratoire de Géologie',
-    nameEn: 'Geology Laboratory',
-    nameAr: 'مختبر علم الأرض',
-    code: 'LGEO',
-    department: 'Géologie',
-    category: 'lab',
-    coordinates: [31.649000, -8.014250],
-    openingHours: '08:00 – 17:00',
-    services: ['TP Géologie', 'Cartographie SIG', 'Collection de roches', 'Microscopes pétrographiques'],
-    description: 'Laboratoire de Géologie et Sciences de la Terre'
-  },
-
-  // ── Sport ──────────────────────────────────────────────────────────────────
-  {
-    id: 'terrain-sport',
-    name: 'Terrain de Sport',
-    nameEn: 'Sports Facilities',
-    nameAr: 'الملعب الرياضي',
-    code: 'SPORT',
-    department: null,
-    category: 'sports',
-    coordinates: [31.650900, -8.016400],
-    openingHours: '08:00 – 20:00',
-    services: ['Football', 'Basketball', 'Volleyball', 'Athlétisme', 'Tennis de table'],
-    description: 'Complexe sportif universitaire'
   },
 ];

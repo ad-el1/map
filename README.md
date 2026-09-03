@@ -8,13 +8,13 @@ A mobile-first **Progressive Web App** for navigating the campus of **Faculté d
 
 ### Interactive Map
 - Campus centered at **31.6490, -8.0155** (Bd Prince My Abdellah, Marrakech)
-- **32 building markers** colour-coded by category with custom emoji pins
+- **26 building markers** colour-coded by category with custom emoji pins
 - Zoom, pan, and tap any building for details
 - **CartoDB Positron** (light) and **Dark Matter** (dark) tile layers
 
 ### Search & Filter
 - Real-time search by name, code, or department (French, English, Arabic)
-- One-tap **category filters**: Amphithéâtres, Départements, Labos, Bibliothèque, Restauration, Administration, Sport, Parking
+- One-tap **category filters**: Amphithéâtres, Départements, Bibliothèque, Restauration, Administration, Parking
 - Distance from user shown next to each result
 
 ### User Location
@@ -136,15 +136,13 @@ Coordinates in `data/buildings.js` are based on real on-campus GPS survey measur
 
 | Category | Count | Examples |
 |---|---|---|
-| Amphithéâtres | 12 | Amphi I–VIII, Amphi A–D |
-| Départements | 7 | Biologie, Chimie, Géologie, Info, Maths, Physique, Humanités |
-| Laboratoires | 5 | Labo Chimie, Biologie, Physique, Informatique, Géologie |
-| Administration | 2 | Présidence, Scolarité |
-| Restauration | 2 | Restaurant Universitaire, Cafétéria |
+| Amphithéâtres | 11 | Amphi I–X, Pavillon Central |
+| Départements & Salles | 8 | Biologie, Chimie, Géologie, Info, Maths, Physique, Humanités, Extensions |
+| Administration | 2 | Présidence & Décanat, Scolarité |
+| Restauration | 2 | Buvette Étudiants, Buvette Senior |
 | Bibliothèque | 1 | Bibliothèque Centrale |
-| Sport | 1 | Terrain de Sport |
 | Parking | 1 | Parking Étudiants |
-| Entrée | 1 | Entrée Principale |
+| Entrée | 1 | Entrée Principale (Porte 1) |
 
 ### Adding a new building
 
