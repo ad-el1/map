@@ -138,7 +138,17 @@ function setLang(lang) {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     el.textContent = t(el.getAttribute('data-i18n'));
   });
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+    el.setAttribute('aria-label', t(el.getAttribute('data-i18n-aria')));
+  });
   document.getElementById('search-input').placeholder = t('searchPlaceholder');
+
+  // Document-level metadata
+  document.title = t('docTitle');
+  const md = document.querySelector('meta[name="description"]');
+  if (md) md.setAttribute('content', t('metaDesc'));
+  const ob = document.querySelector('#offline-banner span:last-child');
+  if (ob) ob.textContent = t('offlineBanner');
 
   document.querySelectorAll('.lang-btn').forEach(btn =>
     btn.classList.toggle('active', btn.dataset.lang === lang)
@@ -401,6 +411,11 @@ function bindEvents() {
     syncZoomBtns();
   }
 
+  // Recenter on campus
+  document.getElementById('recenter-btn').addEventListener('click', () => {
+    if (APP_STATE.map) APP_STATE.map.flyToBounds(L.latLngBounds(FSSM_BOUNDARY), { padding: [40, 40], duration: 0.6 });
+  });
+
   // Locate
   document.getElementById('locate-btn').addEventListener('click', locateUser);
 
@@ -457,6 +472,20 @@ function bindEvents() {
   // Star (favorite) button
   document.getElementById('star-btn').addEventListener('click', () => {
     if (APP_STATE.selectedBuilding) toggleFavorite(APP_STATE.selectedBuilding.id);
+  });
+
+  // Share button
+  document.getElementById('share-btn').addEventListener('click', () => {
+    const b = APP_STATE.selectedBuilding;
+    if (!b) return;
+    const nameKey = APP_STATE.lang === 'en' ? 'nameEn' : APP_STATE.lang === 'ar' ? 'nameAr' : 'name';
+    const url = `${location.origin}${location.pathname}?b=${encodeURIComponent(b.id)}`;
+    const title = `${b[nameKey] || b.name} — ${t('appTitle')}`;
+    if (navigator.share) {
+      navigator.share({ title, url }).catch(() => {});
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(() => showToast(t('linkCopied') || 'Lien copié')).catch(() => {});
+    }
   });
 
   // Get Directions (from building details)
@@ -534,6 +563,7 @@ function updateWelcomeStats() {
 /* ─── App boot ────────────────────────────────────────────────────────────── */
 function initApp() {
   loadStoredPrefs();
+  setLang(APP_STATE.lang);   // sync <title>, meta, aria-labels to the active language
   loadFavorites();
   loadRecent();
   initMap();
@@ -542,6 +572,15 @@ function initApp() {
   updateWelcomeStats();
   renderWelcomeExtras();
   showSection('welcome-panel');
+
+  // Deep link: ?b=<building-id> opens that building's card
+  try {
+    const bid = new URLSearchParams(location.search).get('b');
+    if (bid) {
+      const b = BUILDINGS.find(x => x.id === bid);
+      if (b) setTimeout(() => selectBuilding(b, APP_STATE.markers[b.id]), 300);
+    }
+  } catch (_) {}
 
   // The tile layer's first 'load' hides the loading screen (see applyTileLayer);
   // this is just a safety net if tiles are slow or the network is down.

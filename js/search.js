@@ -47,7 +47,8 @@ function renderSearchResults(buildings) {
 
   container.style.display = 'block';
 
-  container.querySelectorAll('.search-result-item').forEach(el => {
+  const items = [...container.querySelectorAll('.search-result-item')];
+  items.forEach((el, idx) => {
     const activate = () => {
       const b = BUILDINGS.find(x => x.id === el.dataset.id);
       if (!b) { showToast(t('buildingNotFound'), 'error'); return; }
@@ -58,6 +59,22 @@ function renderSearchResults(buildings) {
       APP_STATE.searchQuery = '';
     };
     el.addEventListener('click', activate);
-    el.addEventListener('keydown', e => { if (e.key === 'Enter') activate(); });
+    el.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { activate(); }
+      else if (e.key === 'ArrowDown') { e.preventDefault(); (items[idx + 1] || items[0]).focus(); }
+      else if (e.key === 'ArrowUp')   { e.preventDefault(); (items[idx - 1] || document.getElementById('search-input')).focus(); }
+      else if (e.key === 'Escape')    { document.getElementById('search-input').focus(); container.style.display = 'none'; }
+    });
   });
 }
+
+/* Arrow-down from the search box jumps into the results list */
+document.addEventListener('DOMContentLoaded', () => {
+  const input = document.getElementById('search-input');
+  if (!input) return;
+  input.addEventListener('keydown', e => {
+    if (e.key !== 'ArrowDown') return;
+    const first = document.querySelector('#search-results .search-result-item');
+    if (first) { e.preventDefault(); first.focus(); }
+  });
+});
