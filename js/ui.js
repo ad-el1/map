@@ -384,6 +384,21 @@ function bindEvents() {
   });
   document.getElementById('sheet-peek').addEventListener('click', expandPanel);
 
+  // Zoom
+  const zoomIn  = document.getElementById('zoom-in-btn');
+  const zoomOut = document.getElementById('zoom-out-btn');
+  zoomIn.addEventListener('click',  () => APP_STATE.map && APP_STATE.map.zoomIn());
+  zoomOut.addEventListener('click', () => APP_STATE.map && APP_STATE.map.zoomOut());
+  if (APP_STATE.map) {
+    const syncZoomBtns = () => {
+      const z = APP_STATE.map.getZoom();
+      zoomIn.disabled  = z >= APP_STATE.map.getMaxZoom();
+      zoomOut.disabled = z <= APP_STATE.map.getMinZoom();
+    };
+    APP_STATE.map.on('zoomend', syncZoomBtns);
+    syncZoomBtns();
+  }
+
   // Locate
   document.getElementById('locate-btn').addEventListener('click', locateUser);
 

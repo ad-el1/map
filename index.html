@@ -117,18 +117,33 @@
 
   <!-- ── Map controls ─────────────────────────────────────────────────────── -->
   <div class="map-controls">
-    <button class="map-btn" id="locate-btn" aria-label="Ma position">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="3"/>
-        <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
-      </svg>
-    </button>
-    <button class="map-btn" id="simulate-btn" aria-label="Simuler position (entrée)">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-        <circle cx="12" cy="9" r="2.5"/>
-      </svg>
-    </button>
+    <div class="mapctl">
+      <button class="mapctl-btn" id="zoom-in-btn" aria-label="Zoom avant">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <line x1="12" y1="6" x2="12" y2="18"/><line x1="6" y1="12" x2="18" y2="12"/>
+        </svg>
+      </button>
+      <button class="mapctl-btn" id="zoom-out-btn" aria-label="Zoom arrière">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <line x1="6" y1="12" x2="18" y2="12"/>
+        </svg>
+      </button>
+    </div>
+    <div class="mapctl">
+      <button class="mapctl-btn" id="locate-btn" aria-label="Ma position">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3.2"/>
+          <path d="M12 2v3.5M12 18.5V22M2 12h3.5M18.5 12H22" stroke-linecap="round"/>
+          <circle cx="12" cy="12" r="8"/>
+        </svg>
+      </button>
+      <button class="mapctl-btn" id="simulate-btn" aria-label="Simuler la position (entrée)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+          <circle cx="12" cy="9" r="2.5"/>
+        </svg>
+      </button>
+    </div>
   </div>
 
   <!-- ── Panel ────────────────────────────────────────────────────────────── -->

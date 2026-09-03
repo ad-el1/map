@@ -269,23 +269,36 @@ body.offline { --safe-top: 42px; }
 /* ── Map control buttons ─────────────────────────────────────────── */
 .map-controls {
   position: fixed; right: 12px; bottom: calc(var(--panel-peek) + 16px);
-  z-index: 998; display: flex; flex-direction: column; gap: 8px;
+  z-index: 998; display: flex; flex-direction: column; gap: 12px;
   transition: opacity var(--transition), bottom var(--transition);
 }
 /* When the sheet is pulled up on mobile, get the controls out of the way */
 body.panel-expanded .map-controls { opacity: 0; pointer-events: none; }
-.map-btn {
-  width: 46px; height: 46px; border-radius: 13px;
-  border: 1px solid var(--border);
-  background: var(--surface); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
-  box-shadow: var(--shadow-sm); color: var(--text);
-  display: flex; align-items: center; justify-content: center;
-  transition: all var(--transition);
+
+/* Segmented control groups — one solid card, hairline-divided buttons */
+.mapctl {
+  display: flex; flex-direction: column;
+  background: var(--surface-solid);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0,0,0,.12), 0 4px 16px rgba(0,0,0,.14), 0 0 0 1px rgba(0,0,0,.05);
 }
-.map-btn:hover { background: var(--primary); border-color: var(--primary); color: #fff; transform: scale(1.06); }
-.map-btn:active { transform: scale(.95); }
-.map-btn.active   { background: var(--primary); border-color: var(--primary); color: #fff; }
-.map-btn.simulating { background: #f59e0b; border-color: #f59e0b; color: #fff; }
+body.dark .mapctl { box-shadow: 0 2px 8px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.07); }
+
+.mapctl-btn {
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  background: transparent;
+  color: var(--text-secondary);
+  transition: background 120ms ease, color 120ms ease;
+}
+.mapctl-btn + .mapctl-btn { border-top: 1px solid var(--border); }
+.mapctl-btn:hover  { background: var(--border); color: var(--text); }
+.mapctl-btn:active { background: var(--border-strong); }
+.mapctl-btn:disabled { color: var(--text-muted); opacity: .4; cursor: default; }
+
+#locate-btn.active       { color: var(--primary); }
+#simulate-btn.simulating { color: #f59e0b; }
 
 /* ── Panel ───────────────────────────────────────────────────────── */
 .panel {
