@@ -81,8 +81,10 @@ function applyCampusMask() {
 
   const isDark = APP_STATE.darkMode;
   const maskStyle = {
-    fillColor: isDark ? '#020617' : '#0f172a',
-    fillOpacity: isDark ? 0.72 : 0.45,
+    // Strong mask so neighbourhood POIs (pharmacies, shops…) outside the campus
+    // clearly read as "not part of the faculty".
+    fillColor: isDark ? '#020617' : '#1e293b',
+    fillOpacity: isDark ? 0.82 : 0.66,
     stroke: false,
     interactive: false,
   };
