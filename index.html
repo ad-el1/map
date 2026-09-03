@@ -275,9 +275,26 @@
   <script src="js/routing.js"></script>
   <script src="js/ui.js"></script>
   <script>
+    // Service worker with auto-update: when a new version is deployed, the new
+    // SW installs, activates (skipWaiting + clients.claim), and the page reloads
+    // once so everyone sees the same build without clearing the cache by hand.
     if ('serviceWorker' in navigator) {
+      // Only auto-reload on an *update* (a controller already existed), not first install
+      const _hadController = !!navigator.serviceWorker.controller;
+      let _reloading = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (_reloading || !_hadController) return;
+        _reloading = true;
+        location.reload();
+      });
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').catch(() => {});
+        navigator.serviceWorker.register('sw.js').then(reg => {
+          reg.update();
+          // Check for a newer version whenever the tab regains focus
+          document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') reg.update();
+          });
+        }).catch(() => {});
       });
     }
   </script>
