@@ -55,8 +55,16 @@ function showBuildingDetails(building) {
     ? `${t('deptLabel')}: ${building.department}`
     : (building.description || '');
 
-  // Hours
-  document.getElementById('detail-hours').textContent = building.openingHours;
+  // Hours (hidden if not specified)
+  const hoursItem = document.getElementById('detail-hours-item');
+  if (hoursItem) {
+    if (building.openingHours) {
+      document.getElementById('detail-hours').textContent = building.openingHours;
+      hoursItem.style.display = 'flex';
+    } else {
+      hoursItem.style.display = 'none';
+    }
+  }
 
   // Distance
   const distItem = document.getElementById('detail-distance-item');
@@ -68,9 +76,17 @@ function showBuildingDetails(building) {
     distItem.style.display = 'none';
   }
 
-  // Services
-  document.getElementById('detail-services').innerHTML =
-    (building.services || []).map(s => `<span class="service-tag">${s}</span>`).join('');
+  // Services (hidden if not specified)
+  const servicesEl = document.getElementById('detail-services');
+  if (servicesEl) {
+    if (building.services && building.services.length) {
+      servicesEl.innerHTML = building.services.map(s => `<span class="service-tag">${s}</span>`).join('');
+      servicesEl.style.display = 'flex';
+    } else {
+      servicesEl.innerHTML = '';
+      servicesEl.style.display = 'none';
+    }
+  }
 
   // Star button
   updateStarBtn(building.id);

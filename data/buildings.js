@@ -13,8 +13,8 @@ const BUILDINGS = [
     department: null,
     category: 'administration',
     coordinates: [31.648194, -8.014417],
-    openingHours: '07:00 – 22:00',
-    services: ['Sécurité', 'Accueil', 'Information', 'Accès Bd Prince My Abdellah'],
+    // openingHours: '07:00 – 22:00',
+    // services: ['Sécurité', 'Accueil', 'Information', 'Accès Bd Prince My Abdellah'],
     description: 'Entrée principale de la faculté (Porte 1)'
   },
   {
@@ -26,8 +26,8 @@ const BUILDINGS = [
     department: null,
     category: 'parking',
     coordinates: [31.647361, -8.015250],
-    openingHours: '07:00 – 22:00',
-    services: ['Stationnement gratuit', 'Surveillance', 'Parking moto & vélo'],
+    // openingHours: '07:00 – 22:00',
+    // services: ['Stationnement gratuit', 'Surveillance', 'Parking moto & vélo'],
     description: 'Parking réservé aux étudiants et au personnel'
   },
 
@@ -41,8 +41,8 @@ const BUILDINGS = [
     department: 'Administration',
     category: 'administration',
     coordinates: [31.648778, -8.014750],
-    openingHours: '08:30 – 16:30',
-    services: ['Bureau du Doyen', 'Ressources Humaines', 'Finance', 'Protocole'],
+    // openingHours: '08:30 – 16:30',
+    // services: ['Bureau du Doyen', 'Ressources Humaines', 'Finance', 'Protocole'],
     description: 'Bâtiment administratif central et décanat de la faculté'
   },
   {
@@ -54,8 +54,8 @@ const BUILDINGS = [
     department: 'Administration',
     category: 'administration',
     coordinates: [31.648350, -8.014650],
-    openingHours: '08:30 – 15:30',
-    services: ['Inscriptions', 'Certificats de scolarité', 'Relevés de notes', 'Attestations'],
+    // openingHours: '08:30 – 15:30',
+    // services: ['Inscriptions', 'Certificats de scolarité', 'Relevés de notes', 'Attestations'],
     description: 'Service des affaires étudiantes et inscriptions'
   },
 
@@ -69,8 +69,8 @@ const BUILDINGS = [
     department: null,
     category: 'library',
     coordinates: [31.648000, -8.014556],
-    openingHours: '08:00 – 20:00',
-    services: ['Prêt de livres', 'Salle de lecture', 'Accès Internet', 'Photocopie', 'Ressources numériques', 'Archives'],
+    // openingHours: '08:00 – 20:00',
+    // services: ['Prêt de livres', 'Salle de lecture', 'Accès Internet', 'Photocopie', 'Ressources numériques', 'Archives'],
     description: 'Bibliothèque centrale de la faculté'
   },
 
@@ -84,8 +84,8 @@ const BUILDINGS = [
     department: null,
     category: 'restaurant',
     coordinates: [31.649722, -8.016306],
-    openingHours: '07:30 – 18:30',
-    services: ['Café & boissons', 'Sandwichs', 'Snacks', 'Restauration rapide', 'Espace étudiants'],
+    // openingHours: '07:30 – 18:30',
+    // services: ['Café & boissons', 'Sandwichs', 'Snacks', 'Restauration rapide', 'Espace étudiants'],
     description: 'Buvette principale réservée aux étudiants'
   },
   {
@@ -97,8 +97,8 @@ const BUILDINGS = [
     department: null,
     category: 'restaurant',
     coordinates: [31.650278, -8.016250],
-    openingHours: '07:30 – 17:30',
-    services: ['Café & boissons', 'Repas légers', 'Sandwichs', 'Terrasse'],
+    // openingHours: '07:30 – 17:30',
+    // services: ['Café & boissons', 'Repas légers', 'Sandwichs', 'Terrasse'],
     description: 'Buvette senior dédiée aux enseignants et au personnel'
   },
 
@@ -112,8 +112,8 @@ const BUILDINGS = [
     department: null,
     category: 'amphitheater',
     coordinates: [31.649278, -8.015528],
-    openingHours: '08:00 – 20:00',
-    services: ['Cours magistraux', 'Capacité 500 places', 'Climatisation', 'Vidéoprojecteur'],
+    // openingHours: '08:00 – 20:00',
+    // services: ['Cours magistraux', 'Capacité 500 places', 'Climatisation', 'Vidéoprojecteur'],
     description: 'Grand amphithéâtre principal'
   },
   {
@@ -125,8 +125,8 @@ const BUILDINGS = [
     department: null,
     category: 'amphitheater',
     coordinates: [31.649028, -8.015083],
-    openingHours: '08:00 – 20:00',
-    services: ['Cours magistraux', 'Capacité 400 places', 'Climatisation'],
+    // openingHours: '08:00 – 20:00',
+    // services: ['Cours magistraux', 'Capacité 400 places', 'Climatisation'],
     description: 'Amphithéâtre II'
   },
   {
@@ -138,8 +138,8 @@ const BUILDINGS = [
     department: null,
     category: 'amphitheater',
     coordinates: [31.648667, -8.015333],
-    openingHours: '08:00 – 20:00',
-    services: ['Cours magistraux', 'Capacité 400 places', 'Système audio'],
+    // openingHours: '08:00 – 20:00',
+    // services: ['Cours magistraux', 'Capacité 400 places', 'Système audio'],
     description: 'Amphithéâtre III'
   },
   {
@@ -151,8 +151,8 @@ const BUILDINGS = [
     department: null,
     category: 'amphitheater',
     coordinates: [31.649639, -8.014972],
-    openingHours: '08:00 – 20:00',
-    services: ['Cours magistraux', 'Capacité 350 places'],
+    // openingHours: '08:00 – 20:00',
+    // services: ['Cours magistraux', 'Capacité 350 places'],
     description: 'Amphithéâtre IV'
   },
   {
@@ -164,8 +164,8 @@ const BUILDINGS = [
     department: null,
     category: 'amphitheater',
     coordinates: [31.649306, -8.014556],
-    openingHours: '08:00 – 20:00',
-    services: ['Cours magistraux', 'Capacité 300 places'],
+    // openingHours: '08:00 – 20:00',
+    // services: ['Cours magistraux', 'Capacité 300 places'],
     description: 'Amphithéâtre V'
   },
   {
@@ -177,8 +177,8 @@ const BUILDINGS = [
     department: null,
     category: 'amphitheater',
     coordinates: [31.648389, -8.015944],
-    openingHours: '08:00 – 20:00',
-    services: ['Cours magistraux', 'Capacité 300 places'],
+    // openingHours: '08:00 – 20:00',
+    // services: ['Cours magistraux', 'Capacité 300 places'],
     description: 'Amphithéâtre VI'
   },
   {
@@ -190,8 +190,8 @@ const BUILDINGS = [
     department: null,
     category: 'amphitheater',
     coordinates: [31.648111, -8.015750],
-    openingHours: '08:00 – 20:00',
-    services: ['Cours magistraux', 'Capacité 250 places'],
+    // openingHours: '08:00 – 20:00',
+    // services: ['Cours magistraux', 'Capacité 250 places'],
     description: 'Amphithéâtre VII'
   },
   {
@@ -203,8 +203,8 @@ const BUILDINGS = [
     department: null,
     category: 'amphitheater',
     coordinates: [31.648861, -8.016028],
-    openingHours: '08:00 – 20:00',
-    services: ['Cours magistraux', 'Capacité 250 places'],
+    // openingHours: '08:00 – 20:00',
+    // services: ['Cours magistraux', 'Capacité 250 places'],
     description: 'Amphithéâtre VIII'
   },
 
@@ -218,8 +218,8 @@ const BUILDINGS = [
     department: null,
     category: 'amphitheater',
     coordinates: [31.649472, -8.014806],
-    openingHours: '08:00 – 20:00',
-    services: ['Cours magistraux', 'Capacité 250 places', 'Vidéoprojecteur', 'Wi-Fi'],
+    // openingHours: '08:00 – 20:00',
+    // services: ['Cours magistraux', 'Capacité 250 places', 'Vidéoprojecteur', 'Wi-Fi'],
     description: 'Amphithéâtre IX (Amphi 9)'
   },
   {
@@ -231,8 +231,8 @@ const BUILDINGS = [
     department: null,
     category: 'amphitheater',
     coordinates: [31.650139, -8.016444],
-    openingHours: '08:00 – 20:00',
-    services: ['Cours magistraux', 'Capacité 250 places', 'Vidéoprojecteur'],
+    // openingHours: '08:00 – 20:00',
+    // services: ['Cours magistraux', 'Capacité 250 places', 'Vidéoprojecteur'],
     description: 'Amphithéâtre X (Amphi 10)'
   },
   {
@@ -244,8 +244,8 @@ const BUILDINGS = [
     department: null,
     category: 'department',
     coordinates: [31.649528, -8.016833],
-    openingHours: '08:00 – 20:00',
-    services: ['Salles de cours', 'Salles de TD', 'Capacité 40-60 places', 'Séances de travaux dirigés'],
+    // openingHours: '08:00 – 20:00',
+    // services: ['Salles de cours', 'Salles de TD', 'Capacité 40-60 places', 'Séances de travaux dirigés'],
     description: 'Bâtiment des extensions regroupant des salles de cours et de TD (aucun amphithéâtre)'
   },
   {
@@ -257,8 +257,8 @@ const BUILDINGS = [
     department: null,
     category: 'amphitheater',
     coordinates: [31.648917, -8.015417],
-    openingHours: '08:00 – 20:00',
-    services: ['Grande salle de conférences', 'Cours magistraux', 'Capacité 200 places'],
+    // openingHours: '08:00 – 20:00',
+    // services: ['Grande salle de conférences', 'Cours magistraux', 'Capacité 200 places'],
     description: 'Pavillon central au cœur du campus'
   },
 
@@ -272,8 +272,8 @@ const BUILDINGS = [
     department: 'Biologie',
     category: 'department',
     coordinates: [31.649528, -8.015083],
-    openingHours: '08:00 – 18:00',
-    services: ['Salles de cours', 'Bureaux professeurs', 'Salle de réunion', 'Documentation'],
+    // openingHours: '08:00 – 18:00',
+    // services: ['Salles de cours', 'Bureaux professeurs', 'Salle de réunion', 'Documentation'],
     description: 'Département des Sciences de la Vie et de la Terre'
   },
   {
@@ -285,8 +285,8 @@ const BUILDINGS = [
     department: 'Chimie',
     category: 'department',
     coordinates: [31.648083, -8.015444],
-    openingHours: '08:00 – 18:00',
-    services: ['Salles de cours', 'Bureaux professeurs', 'Salle de réunion'],
+    // openingHours: '08:00 – 18:00',
+    // services: ['Salles de cours', 'Bureaux professeurs', 'Salle de réunion'],
     description: 'Département de Chimie'
   },
   {
@@ -298,8 +298,8 @@ const BUILDINGS = [
     department: 'Géologie',
     category: 'department',
     coordinates: [31.648944, -8.014389],
-    openingHours: '08:00 – 18:00',
-    services: ['Salles de cours', 'Bureaux professeurs', 'Lithothèque', 'Cartographie'],
+    // openingHours: '08:00 – 18:00',
+    // services: ['Salles de cours', 'Bureaux professeurs', 'Lithothèque', 'Cartographie'],
     description: 'Département des Sciences de la Terre'
   },
   {
@@ -311,8 +311,8 @@ const BUILDINGS = [
     department: 'Informatique',
     category: 'department',
     coordinates: [31.650750, -8.016333],
-    openingHours: '08:00 – 18:00',
-    services: ['Salles de cours', 'Bureaux professeurs', 'Salle machines', 'Wi-Fi dédié'],
+    // openingHours: '08:00 – 18:00',
+    // services: ['Salles de cours', 'Bureaux professeurs', 'Salle machines', 'Wi-Fi dédié'],
     description: 'Département Informatique et Intelligence Artificielle'
   },
   {
@@ -324,8 +324,8 @@ const BUILDINGS = [
     department: 'Mathématiques',
     category: 'department',
     coordinates: [31.648389, -8.015639],
-    openingHours: '08:00 – 18:00',
-    services: ['Salles de cours', 'Bureaux professeurs', 'Bibliothèque spécialisée'],
+    // openingHours: '08:00 – 18:00',
+    // services: ['Salles de cours', 'Bureaux professeurs', 'Bibliothèque spécialisée'],
     description: 'Département de Mathématiques, situé entre les départements de Physique et de Chimie'
   },
   {
@@ -337,8 +337,8 @@ const BUILDINGS = [
     department: 'Physique',
     category: 'department',
     coordinates: [31.648972, -8.016278],
-    openingHours: '08:00 – 18:00',
-    services: ['Salles de cours', 'Bureaux professeurs', 'Salle de TP', 'Instrumentation'],
+    // openingHours: '08:00 – 18:00',
+    // services: ['Salles de cours', 'Bureaux professeurs', 'Salle de TP', 'Instrumentation'],
     description: 'Département de Physique'
   },
   {
@@ -350,8 +350,8 @@ const BUILDINGS = [
     department: 'Humanités',
     category: 'department',
     coordinates: [31.648900, -8.015150],
-    openingHours: '08:00 – 18:00',
-    services: ['Salles de cours', 'Bureaux professeurs', 'Salle multimédia', 'Langues'],
+    // openingHours: '08:00 – 18:00',
+    // services: ['Salles de cours', 'Bureaux professeurs', 'Salle multimédia', 'Langues'],
     description: 'Département des Sciences Humaines et Sociales'
   },
 ];
