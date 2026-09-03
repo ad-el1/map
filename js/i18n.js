@@ -168,6 +168,7 @@ const APP_STATE = {
   boundaryLayer: null,
   userMarker: null,
   routeLayer: null,
+  networkLayer: null,
   userLocation: null,
   simulating: false,
   darkMode: false,

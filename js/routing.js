@@ -220,6 +220,36 @@ function findClosestCampusNode(pt) {
   return best;
 }
 
+/* Closest point on segment AB to P (local equirectangular approx — fine at campus scale) */
+function projectOnSegment(p, a, b) {
+  const latRef = a[0] * Math.PI / 180;
+  const mPerDegLat = 111320;
+  const mPerDegLon = 111320 * Math.cos(latRef);
+  const toXY = c => [(c[1] - a[1]) * mPerDegLon, (c[0] - a[0]) * mPerDegLat];
+  const P = toXY(p), B = toXY(b);
+  const len2 = B[0] * B[0] + B[1] * B[1];
+  let tt = len2 > 0 ? (P[0] * B[0] + P[1] * B[1]) / len2 : 0;
+  tt = Math.max(0, Math.min(1, tt));
+  const proj = [a[0] + (b[0] - a[0]) * tt, a[1] + (b[1] - a[1]) * tt];
+  return { coord: proj, t: tt, dist: haversine(p, proj) };
+}
+
+/* Snap an arbitrary point onto the walkway network — returns the projected
+   coord plus the two graph nodes of the edge it landed on. */
+function snapToWalkway(pt) {
+  let best = null;
+  for (const [u, v] of CAMPUS_EDGES) {
+    if (!CAMPUS_NODES[u] || !CAMPUS_NODES[v]) continue;
+    const pr = projectOnSegment(pt, CAMPUS_NODES[u].coord, CAMPUS_NODES[v].coord);
+    if (!best || pr.dist < best.dist) best = { ...pr, u, v };
+  }
+  if (!best) {
+    const k = findClosestCampusNode(pt);
+    return { coord: CAMPUS_NODES[k].coord, dist: haversine(pt, CAMPUS_NODES[k].coord), u: k, v: k };
+  }
+  return best;
+}
+
 function getNodeLabel(nodeKey) {
   const node = CAMPUS_NODES[nodeKey];
   if (!node) return '';
@@ -243,26 +273,42 @@ function buildCampusRoute(from, to, targetName) {
     };
   }
 
-  const startNodeKey = findClosestCampusNode(from);
-  const endNodeKey   = findClosestCampusNode(to);
+  // Snap both ends onto the nearest walkway, then pick the cheapest way through
+  // the graph between the two edges they landed on.
+  const snapFrom = snapToWalkway(from);
+  const snapTo   = snapToWalkway(to);
 
   const rawPoints = [from];
   const rawNames  = [t('fromLabel')];
-
-  if (startNodeKey === endNodeKey) {
-    const startCoord = CAMPUS_NODES[startNodeKey].coord;
-    if (haversine(from, startCoord) > 8) {
-      rawPoints.push(startCoord);
-      rawNames.push(getNodeLabel(startNodeKey));
-    }
-  } else {
-    const nodeKeys = findShortestCampusPath(startNodeKey, endNodeKey);
-    nodeKeys.forEach(k => {
-      rawPoints.push(CAMPUS_NODES[k].coord);
-      rawNames.push(getNodeLabel(k));
-    });
+  if (haversine(from, snapFrom.coord) > 6) {
+    rawPoints.push(snapFrom.coord);
+    rawNames.push(t('fromLabel'));
   }
 
+  let bestSeq = null;
+  let bestCost = Infinity;
+  for (const s of new Set([snapFrom.u, snapFrom.v])) {
+    for (const e of new Set([snapTo.u, snapTo.v])) {
+      const nodeKeys = findShortestCampusPath(s, e);
+      if (!nodeKeys.length) continue;
+      let cost = haversine(snapFrom.coord, CAMPUS_NODES[s].coord)
+               + haversine(snapTo.coord,   CAMPUS_NODES[e].coord);
+      for (let i = 0; i < nodeKeys.length - 1; i++) {
+        cost += haversine(CAMPUS_NODES[nodeKeys[i]].coord, CAMPUS_NODES[nodeKeys[i + 1]].coord);
+      }
+      if (cost < bestCost) { bestCost = cost; bestSeq = nodeKeys; }
+    }
+  }
+
+  (bestSeq || [findClosestCampusNode(from)]).forEach(k => {
+    rawPoints.push(CAMPUS_NODES[k].coord);
+    rawNames.push(getNodeLabel(k));
+  });
+
+  if (haversine(to, snapTo.coord) > 6) {
+    rawPoints.push(snapTo.coord);
+    rawNames.push(targetName);
+  }
   rawPoints.push(to);
   rawNames.push(targetName);
 
@@ -294,12 +340,13 @@ function buildCampusRoute(from, to, targetName) {
     } else {
       const prevBearing = calcBearing(points[i - 1], points[i]);
       const diff = (bearing - prevBearing + 540) % 360 - 180;
-      if (Math.abs(diff) < 32) {
+      const a = Math.abs(diff);
+      if (a < 18) {
         instruction = `${t('continueTowards')} ${targetLabel}`;
-      } else if (diff > 0) {
-        instruction = `${t('turnRightTowards')} ${targetLabel}`;
+      } else if (a < 50) {
+        instruction = `${t(diff > 0 ? 'turnSlightRight' : 'turnSlightLeft')} ${targetLabel}`;
       } else {
-        instruction = `${t('turnLeftTowards')} ${targetLabel}`;
+        instruction = `${t(diff > 0 ? 'turnRightTowards' : 'turnLeftTowards')} ${targetLabel}`;
       }
     }
 
@@ -318,8 +365,31 @@ function buildCampusRoute(from, to, targetName) {
 }
 
 /* ─── Route drawing ───────────────────────────────────────────────────────── */
+// Faint overlay of the whole walkway network — shown while an itinerary is open
+// so the paths used are visible (and easy to eyeball against the real campus).
+function drawWalkwayNetwork() {
+  if (APP_STATE.networkLayer) return;
+  const dark = APP_STATE.darkMode;
+  const g = L.layerGroup();
+  CAMPUS_EDGES.forEach(([u, v]) => {
+    if (!CAMPUS_NODES[u] || !CAMPUS_NODES[v]) return;
+    L.polyline([CAMPUS_NODES[u].coord, CAMPUS_NODES[v].coord], {
+      color: dark ? '#94a3b8' : '#475569',
+      weight: 3, opacity: 0.35, dashArray: '2 6', lineCap: 'round', interactive: false,
+    }).addTo(g);
+  });
+  Object.values(CAMPUS_NODES).forEach(n => {
+    L.circleMarker(n.coord, {
+      radius: 3, color: dark ? '#94a3b8' : '#475569',
+      weight: 0, fillOpacity: 0.5, interactive: false,
+    }).addTo(g);
+  });
+  APP_STATE.networkLayer = g.addTo(APP_STATE.map);
+}
+
 function drawRoute(points) {
   clearRoute();
+  drawWalkwayNetwork();
   APP_STATE.routeLayer = L.polyline(points, {
     color:     '#2563eb',
     weight:    5,
@@ -335,6 +405,10 @@ function clearRoute() {
   if (APP_STATE.routeLayer) {
     APP_STATE.map.removeLayer(APP_STATE.routeLayer);
     APP_STATE.routeLayer = null;
+  }
+  if (APP_STATE.networkLayer) {
+    APP_STATE.map.removeLayer(APP_STATE.networkLayer);
+    APP_STATE.networkLayer = null;
   }
 }
 
