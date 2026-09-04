@@ -808,10 +808,16 @@ html[dir="rtl"] .mini-cards          { direction: rtl; }
 html[lang="ar"] { font-size: 15px; }
 
 /* ═══════════════════════════════════════════════════════════════════
-   DARK MAP — OSM has no keyless dark tiles, so we filter the light ones
+   BASEMAP TREATMENT
+   Light: desaturate the OSM tiles so the neighbourhood recedes and the
+   campus + markers carry the eye (POI labels stay but read as quiet grey).
+   Dark: no keyless dark tiles, so invert the light ones.
 ═══════════════════════════════════════════════════════════════════ */
+#map .leaflet-tile-pane {
+  filter: saturate(.12) brightness(1.05) contrast(.94);
+}
 #map.map-dark .leaflet-tile-pane {
-  filter: invert(1) hue-rotate(180deg) brightness(.92) contrast(.9) saturate(.85);
+  filter: invert(1) hue-rotate(180deg) brightness(.9) contrast(.92) saturate(.35);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
