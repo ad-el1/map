@@ -35,6 +35,9 @@ input  { font-family: inherit; }
   --surface-card:       rgba(241, 245, 249, 0.7);
   --surface-card-hover: rgba(226, 232, 240, 0.9);
   --radius-card:        14px;
+  --panel-tray:         #e9edf2;   /* grey tray behind the sidebar cards (desktop) */
+  --card-solid:         #ffffff;
+  --card-solid-hover:   #f1f5f9;
 }
 
 body.dark {
@@ -42,6 +45,9 @@ body.dark {
   --surface-solid: #1e293b;
   --surface-card:       rgba(30, 41, 59, 0.65);
   --surface-card-hover: rgba(51, 65, 85, 0.85);
+  --panel-tray:         #0f1622;
+  --card-solid:         #1c2635;
+  --card-solid-hover:   #2a3648;
   --border:        rgba(255,255,255,.08);
   --border-strong: rgba(255,255,255,.15);
   --text:          #f1f5f9;
@@ -723,9 +729,12 @@ html[dir="rtl"] .landmark-card:hover .landmark-arrow {
     border-radius: 20px; border: 1px solid var(--border);
     max-height: none;
     transform: none;                 /* always open on desktop */
-    background: var(--surface-solid); /* solid column, not glass over the map */
+    background: var(--panel-tray);    /* grey tray — cards sit on top of it */
     backdrop-filter: none; -webkit-backdrop-filter: none;
     box-shadow: 0 12px 40px -8px rgba(0,0,0,.12), 0 0 0 1px var(--border);
+    /* opaque cards so they read against the grey tray */
+    --surface-card: var(--card-solid);
+    --surface-card-hover: var(--card-solid-hover);
   }
   body.dark .panel {
     box-shadow: 0 16px 48px -8px rgba(0,0,0,.55), 0 0 0 1px var(--border);
