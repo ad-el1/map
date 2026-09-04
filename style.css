@@ -329,7 +329,11 @@ body.dark .mapctl { box-shadow: 0 2px 8px rgba(0,0,0,.55), 0 0 0 1px rgba(255,25
 /* ── Panel ───────────────────────────────────────────────────────── */
 .panel {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 997;
-  background: var(--surface); backdrop-filter: var(--blur); -webkit-backdrop-filter: var(--blur);
+  /* grey tray — white cards sit on top of it (all screen sizes) */
+  background: var(--panel-tray);
+  --surface-card: var(--card-solid);
+  --surface-card-hover: var(--card-solid-hover);
+  backdrop-filter: none; -webkit-backdrop-filter: none;
   border: 1px solid var(--border); border-bottom: none;
   border-radius: 24px 24px 0 0;
   box-shadow: 0 -4px 32px rgba(0,0,0,.12);
@@ -378,6 +382,18 @@ body.dark .mapctl { box-shadow: 0 2px 8px rgba(0,0,0,.55), 0 0 0 1px rgba(255,25
 
 /* Panel sections */
 .panel-section { padding: 4px 18px 24px; animation: slideUp 280ms cubic-bezier(.16,1,.3,1) both; }
+
+/* white cards lifted off the grey tray */
+.panel .landmark-card,
+.panel .mini-card,
+.panel .stat-card,
+.panel .tip-callout,
+.panel .nearme-item { box-shadow: 0 1px 2px rgba(15,23,42,.06), 0 1px 3px rgba(15,23,42,.10); }
+body.dark .panel .landmark-card,
+body.dark .panel .mini-card,
+body.dark .panel .stat-card,
+body.dark .panel .tip-callout,
+body.dark .panel .nearme-item { box-shadow: 0 1px 3px rgba(0,0,0,.45); }
 @keyframes slideUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 
 .panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; min-height: 38px; }
@@ -729,27 +745,7 @@ html[dir="rtl"] .landmark-card:hover .landmark-arrow {
     border-radius: 20px; border: 1px solid var(--border);
     max-height: none;
     transform: none;                 /* always open on desktop */
-    background: var(--panel-tray);    /* grey tray — cards sit on top of it */
-    backdrop-filter: none; -webkit-backdrop-filter: none;
     box-shadow: 0 12px 40px -8px rgba(0,0,0,.12), 0 0 0 1px var(--border);
-    /* opaque cards so they read against the grey tray */
-    --surface-card: var(--card-solid);
-    --surface-card-hover: var(--card-solid-hover);
-  }
-  /* lift the white cards off the grey tray */
-  .panel .landmark-card,
-  .panel .mini-card,
-  .panel .stat-card,
-  .panel .tip-callout,
-  .panel .nearme-item {
-    box-shadow: 0 1px 2px rgba(15,23,42,.06), 0 1px 3px rgba(15,23,42,.10);
-  }
-  body.dark .panel .landmark-card,
-  body.dark .panel .mini-card,
-  body.dark .panel .stat-card,
-  body.dark .panel .tip-callout,
-  body.dark .panel .nearme-item {
-    box-shadow: 0 1px 2px rgba(0,0,0,.4);
   }
   body.dark .panel {
     box-shadow: 0 16px 48px -8px rgba(0,0,0,.55), 0 0 0 1px var(--border);
