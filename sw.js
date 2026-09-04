@@ -1,6 +1,6 @@
 'use strict';
 
-const CACHE_VERSION = 'v20';
+const CACHE_VERSION = 'v21';
 const STATIC_CACHE  = `fssm-static-${CACHE_VERSION}`;
 const TILE_CACHE    = `fssm-tiles-${CACHE_VERSION}`;
 const MAX_TILES     = 350;

@@ -333,6 +333,16 @@ body.dark .mapctl { box-shadow: 0 2px 8px rgba(0,0,0,.55), 0 0 0 1px rgba(255,25
 #locate-btn.active       { color: var(--primary); }
 #simulate-btn.simulating { color: #f59e0b; }
 
+/* spinner while acquiring GPS */
+.mapctl-btn.locating svg { opacity: 0; }
+.mapctl-btn.locating::after {
+  content: ""; position: absolute; width: 18px; height: 18px;
+  border: 2px solid var(--border-strong); border-top-color: var(--primary);
+  border-radius: 50%; animation: mapctlSpin .7s linear infinite;
+}
+@keyframes mapctlSpin { to { transform: rotate(360deg); } }
+.mapctl-btn { position: relative; }
+
 /* ── Panel ───────────────────────────────────────────────────────── */
 .panel {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 997;

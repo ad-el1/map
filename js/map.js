@@ -189,26 +189,36 @@ function removeUserMarker() {
 }
 
 function locateUser() {
-  if (!navigator.geolocation) { showToast(t('locUnavailable')); return; }
+  const btn = document.getElementById('locate-btn');
+
+  // Geolocation needs a secure context (HTTPS or localhost). On http://192.168.x.x
+  // the browser blocks it silently — tell the user instead of failing quietly.
+  if (!window.isSecureContext || !navigator.geolocation) {
+    showToast(t('locInsecure'), 'error');
+    return;
+  }
+
+  btn.classList.add('locating');
+  showToast(t('locSearching'));
 
   navigator.geolocation.getCurrentPosition(
     pos => {
+      btn.classList.remove('locating');
       const latlng = [pos.coords.latitude, pos.coords.longitude];
       placeUserMarker(latlng);
-      APP_STATE.map.setView(latlng, 17, { animate: true });
+      // If the fix is far outside the campus, keep the campus in view too
+      const onCampus = L.latLngBounds(FSSM_BOUNDARY).pad(0.6).contains(latlng);
+      APP_STATE.map.setView(latlng, onCampus ? 18 : APP_STATE.map.getZoom(), { animate: true });
       showToast(t('locEnabled'));
       if (APP_STATE.simulating) setSimulating(false);
-      document.getElementById('locate-btn').classList.add('active');
+      btn.classList.add('active');
     },
     err => {
-      const msgs = {
-        1: t('locDenied'),
-        2: t('locUnavailable'),
-        3: t('locTimeout'),
-      };
+      btn.classList.remove('locating');
+      const msgs = { 1: t('locDenied'), 2: t('locUnavailable'), 3: t('locTimeout') };
       showToast(msgs[err.code] || t('locUnavailable'), 'error');
     },
-    { enableHighAccuracy: true, timeout: 10000, maximumAge: 30000 }
+    { enableHighAccuracy: true, timeout: 12000, maximumAge: 5000 }
   );
 }
 
