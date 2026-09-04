@@ -35,9 +35,9 @@ input  { font-family: inherit; }
   --surface-card:       rgba(241, 245, 249, 0.7);
   --surface-card-hover: rgba(226, 232, 240, 0.9);
   --radius-card:        14px;
-  --panel-tray:         #e9edf2;   /* grey tray behind the sidebar cards (desktop) */
+  --panel-tray:         #d5dbe4;   /* grey tray behind the sidebar cards (desktop) */
   --card-solid:         #ffffff;
-  --card-solid-hover:   #f1f5f9;
+  --card-solid-hover:   #f4f6fa;
 }
 
 body.dark {
@@ -735,6 +735,21 @@ html[dir="rtl"] .landmark-card:hover .landmark-arrow {
     /* opaque cards so they read against the grey tray */
     --surface-card: var(--card-solid);
     --surface-card-hover: var(--card-solid-hover);
+  }
+  /* lift the white cards off the grey tray */
+  .panel .landmark-card,
+  .panel .mini-card,
+  .panel .stat-card,
+  .panel .tip-callout,
+  .panel .nearme-item {
+    box-shadow: 0 1px 2px rgba(15,23,42,.06), 0 1px 3px rgba(15,23,42,.10);
+  }
+  body.dark .panel .landmark-card,
+  body.dark .panel .mini-card,
+  body.dark .panel .stat-card,
+  body.dark .panel .tip-callout,
+  body.dark .panel .nearme-item {
+    box-shadow: 0 1px 2px rgba(0,0,0,.4);
   }
   body.dark .panel {
     box-shadow: 0 16px 48px -8px rgba(0,0,0,.55), 0 0 0 1px var(--border);
