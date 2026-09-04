@@ -10,14 +10,14 @@ input  { font-family: inherit; }
 
 /* ── Design tokens ───────────────────────────────────────────────── */
 :root {
-  /* FSSM / Université Cadi Ayyad brand — Marrakech maroon + Semlalia green */
-  --primary:       #8a1f2d;
-  --primary-hover: #6f1824;
-  --primary-glow:  rgba(138,31,45,.30);
-  --fssm-maroon:   #8a1f2d;
-  --fssm-wine:     #a8324a;
-  --fssm-green:    #4e7d3a;
-  --brand-grad:    linear-gradient(135deg, #6f1824 0%, #8a1f2d 45%, #a8324a 100%);
+  /* FSSM / Université Cadi Ayyad brand — Semlalia green + Marrakech terracotta */
+  --primary:        #3f6f3c;
+  --primary-hover:  #325731;
+  --primary-glow:   rgba(63,111,60,.30);
+  --fssm-green:     #3f6f3c;
+  --fssm-green-dk:  #274d27;
+  --fssm-terracotta:#a85a24;
+  --brand-grad:     linear-gradient(135deg, #274d27 0%, #3f6f3c 55%, #6f9a4a 100%);
   --surface:       rgba(255,255,255,.84);
   --surface-solid: #ffffff;
   --border:        rgba(0,0,0,.08);
@@ -96,7 +96,7 @@ body.dark { background: #020617; }
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: linear-gradient(160deg, #511420 0%, #6f1824 40%, #8a1f2d 100%);
+  background: linear-gradient(160deg, #274d27 0%, #325731 40%, #3f6f3c 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -422,18 +422,18 @@ body.dark .panel .nearme-item { box-shadow: 0 1px 3px rgba(0,0,0,.45); }
 .welcome-logo-img { display: block; height: 44px; width: auto; object-fit: contain; }
 .welcome-title {
   font-size: 24px; font-weight: 800; letter-spacing: -.6px;
-  background: linear-gradient(135deg, #6f1824 0%, #8a1f2d 50%, #a8324a 100%);
+  background: linear-gradient(135deg, #325731 0%, #3f6f3c 50%, #a85a24 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   line-height: 1.2;
 }
 .welcome-tag {
   display: inline-block;
   font-size: 11.5px; font-weight: 600; color: var(--primary);
-  background: rgba(138,31,45,.08); border: 1px solid rgba(138,31,45,.2);
+  background: rgba(63,111,60,.08); border: 1px solid rgba(63,111,60,.2);
   padding: 3px 12px; border-radius: 999px; margin-top: 6px;
 }
 body.dark .welcome-tag {
-  background: rgba(138,31,45,.2); border-color: rgba(138,31,45,.4);
+  background: rgba(63,111,60,.2); border-color: rgba(63,111,60,.4);
   color: #93c5fd;
 }
 .welcome-univ {
@@ -454,7 +454,7 @@ body.dark .welcome-tag {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
   background: var(--primary); opacity: .85;
 }
-.stat-card[data-category="amphitheater"]::before { background: #a8324a; }
+.stat-card[data-category="amphitheater"]::before { background: #a85a24; }
 .stat-card[data-category="department"]::before   { background: #2563eb; }
 .stat-card[data-category="restaurant"]::before   { background: #dc2626; }
 .stat-card[data-category="all"]::before          { background: #0891b2; }
@@ -482,14 +482,14 @@ body.dark .welcome-tag {
   display: flex; align-items: center; justify-content: center; gap: 10px;
   width: 100%; padding: 13px 18px; margin-bottom: 20px;
   border-radius: 14px;
-  background: linear-gradient(135deg, #8a1f2d 0%, #8a1f2d 50%, #a8324a 100%);
+  background: linear-gradient(135deg, #3f6f3c 0%, #3f6f3c 50%, #a85a24 100%);
   color: #fff; font-size: 14px; font-weight: 700; letter-spacing: .1px;
-  box-shadow: 0 4px 18px rgba(138,31,45,.35), inset 0 1px 0 rgba(255,255,255,.25);
+  box-shadow: 0 4px 18px rgba(63,111,60,.35), inset 0 1px 0 rgba(255,255,255,.25);
   transition: all 250ms cubic-bezier(.4,0,.2,1);
 }
 .btn-nearme:hover {
   transform: translateY(-1.5px);
-  box-shadow: 0 8px 24px rgba(138,31,45,.45), inset 0 1px 0 rgba(255,255,255,.35);
+  box-shadow: 0 8px 24px rgba(63,111,60,.45), inset 0 1px 0 rgba(255,255,255,.35);
 }
 .btn-nearme:active { transform: translateY(.5px) scale(.99); }
 .nearme-icon-el { font-size: 16px; }
@@ -529,7 +529,7 @@ html[dir="rtl"] .landmark-card:hover { transform: translateX(-3px); }
   box-shadow: 0 2px 6px rgba(0,0,0,.06);
 }
 .landmark-icon-wrap.am-biblio { background: rgba(217,119,6,.14); }
-.landmark-icon-wrap.am-dept   { background: rgba(138,31,45,.14); }
+.landmark-icon-wrap.am-dept   { background: rgba(63,111,60,.14); }
 .landmark-icon-wrap.am-resto  { background: rgba(220,38,38,.14); }
 .landmark-icon-wrap.am-admin  { background: rgba(107,114,128,.14); }
 .landmark-icon-wrap.am-amphi  { background: rgba(124,58,237,.14); }
@@ -637,14 +637,14 @@ html[dir="rtl"] .landmark-card:hover .landmark-arrow {
 .btn-primary {
   display: flex; align-items: center; justify-content: center; gap: 10px;
   width: 100%; padding: 13px 20px; border-radius: 14px;
-  background: linear-gradient(135deg, #8a1f2d 0%, #6f1824 100%);
+  background: linear-gradient(135deg, #3f6f3c 0%, #325731 100%);
   color: #fff; font-size: 15px; font-weight: 700; letter-spacing: .2px;
-  box-shadow: 0 4px 18px rgba(138,31,45,.35), inset 0 1px 0 rgba(255,255,255,.25);
+  box-shadow: 0 4px 18px rgba(63,111,60,.35), inset 0 1px 0 rgba(255,255,255,.25);
   transition: all 220ms ease;
 }
 .btn-primary:hover {
-  background: linear-gradient(135deg, #6f1824 0%, #431019 100%);
-  transform: translateY(-1.5px); box-shadow: 0 8px 24px rgba(138,31,45,.45);
+  background: linear-gradient(135deg, #325731 0%, #22421f 100%);
+  transform: translateY(-1.5px); box-shadow: 0 8px 24px rgba(63,111,60,.45);
 }
 .btn-primary:active { transform: translateY(.5px) scale(.99); }
 
@@ -657,7 +657,7 @@ html[dir="rtl"] .landmark-card:hover .landmark-arrow {
 }
 .route-endpoint::before {
   content: ''; width: 8px; height: 8px; border-radius: 50%;
-  background: var(--primary); flex-shrink: 0; box-shadow: 0 0 0 3px rgba(138,31,45,.2);
+  background: var(--primary); flex-shrink: 0; box-shadow: 0 0 0 3px rgba(63,111,60,.2);
 }
 .route-endpoint.dest::before {
   background: #16a34a; box-shadow: 0 0 0 3px rgba(22,163,74,.2);
@@ -682,7 +682,7 @@ html[dir="rtl"] .landmark-card:hover .landmark-arrow {
 .step-num.last { background: #16a34a; border-color: #16a34a; color: #fff; }
 .step-line {
   width: 2px; flex: 1; min-height: 18px;
-  background: linear-gradient(to bottom, var(--primary) 0%, rgba(138,31,45,.2) 100%);
+  background: linear-gradient(to bottom, var(--primary) 0%, rgba(63,111,60,.2) 100%);
   margin: 3px 0; border-radius: 1px;
 }
 .route-step:last-child .step-line { display: none; }

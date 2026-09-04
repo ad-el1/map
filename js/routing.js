@@ -392,7 +392,7 @@ function drawRoute(points) {
   clearRoute();
   drawWalkwayNetwork();
   APP_STATE.routeLayer = L.polyline(points, {
-    color:     '#b81d38',
+    color:     '#c2571f',
     weight:    5,
     opacity:   0.9,
     dashArray: '10 6',
