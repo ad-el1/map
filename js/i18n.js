@@ -69,7 +69,7 @@ const STRINGS = {
     ariaZoomIn: 'Zoom avant', ariaZoomOut: 'Zoom arrière',
     ariaLocate: 'Ma position', ariaSimulate: 'Simuler la position',
     ariaRecenter: 'Recentrer sur le campus', ariaClose: 'Fermer',
-    ariaPanel: 'Ouvrir ou fermer le panneau', ariaShare: 'Partager ce bâtiment', linkCopied: 'Lien copié',
+    ariaPanel: 'Ouvrir ou fermer le panneau', ariaShare: 'Partager ce bâtiment', linkCopied: 'Lien copié', footerCredit: 'Réalisé pour la Faculté des Sciences Semlalia · Université Cadi Ayyad', reportError: 'Signaler une erreur',
   },
   en: {
     appTitle: 'FSSM Campus',
@@ -127,7 +127,7 @@ const STRINGS = {
     ariaZoomIn: 'Zoom in', ariaZoomOut: 'Zoom out',
     ariaLocate: 'My location', ariaSimulate: 'Simulate location',
     ariaRecenter: 'Recenter on campus', ariaClose: 'Close',
-    ariaPanel: 'Open or close the panel', ariaShare: 'Share this building', linkCopied: 'Link copied',
+    ariaPanel: 'Open or close the panel', ariaShare: 'Share this building', linkCopied: 'Link copied', footerCredit: 'Built for the Faculty of Sciences Semlalia · Cadi Ayyad University', reportError: 'Report an issue',
   },
   ar: {
     appTitle: 'حرم FSSM',
@@ -185,7 +185,7 @@ const STRINGS = {
     ariaZoomIn: 'تكبير', ariaZoomOut: 'تصغير',
     ariaLocate: 'موقعي', ariaSimulate: 'محاكاة الموقع',
     ariaRecenter: 'إعادة التمركز على الحرم', ariaClose: 'إغلاق',
-    ariaPanel: 'فتح أو إغلاق اللوحة', ariaShare: 'مشاركة هذا المبنى', linkCopied: 'تم نسخ الرابط',
+    ariaPanel: 'فتح أو إغلاق اللوحة', ariaShare: 'مشاركة هذا المبنى', linkCopied: 'تم نسخ الرابط', footerCredit: 'أُنجز لكلية العلوم السملالية · جامعة القاضي عياض', reportError: 'الإبلاغ عن خطأ',
   },
 };
 

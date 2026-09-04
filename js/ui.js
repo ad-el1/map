@@ -126,7 +126,7 @@ function applyDarkMode(on) {
   document.getElementById('sun-icon').style.display  = on ? 'none'  : 'block';
   document.getElementById('moon-icon').style.display = on ? 'block' : 'none';
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute('content', on ? '#0b1017' : '#2563eb');
+  if (meta) meta.setAttribute('content', on ? '#0b1017' : '#8a1f2d');
   try { localStorage.setItem(LS_DARK, on ? '1' : '0'); } catch (_) {}
 }
 

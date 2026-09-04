@@ -98,7 +98,7 @@ function applyCampusMask() {
   };
 
   const borderStyle = {
-    color: isDark ? '#60a5fa' : '#2563eb',
+    color: isDark ? '#d98a99' : '#8a1f2d',
     weight: 2.5,
     opacity: 0.85,
     dashArray: '6, 6',
