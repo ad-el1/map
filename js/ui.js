@@ -297,9 +297,10 @@ function renderWelcomeExtras() {
 
 /* ─── What's near me? ─────────────────────────────────────────────────────── */
 function showNearMe() {
+  // Real GPS only — no simulated fallback.
   if (!APP_STATE.userLocation) {
-    setSimulating(true);
-    showToast(t('nearMeNoLoc'));
+    locateUser(showNearMe);
+    return;
   }
 
   const from = APP_STATE.userLocation;
@@ -419,12 +420,7 @@ function bindEvents() {
   });
 
   // Locate
-  document.getElementById('locate-btn').addEventListener('click', locateUser);
-
-  // Simulate toggle
-  document.getElementById('simulate-btn').addEventListener('click', () =>
-    setSimulating(!APP_STATE.simulating)
-  );
+  document.getElementById('locate-btn').addEventListener('click', () => locateUser());
 
   // Search input
   const searchInput   = document.getElementById('search-input');

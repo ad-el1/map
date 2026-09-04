@@ -417,21 +417,20 @@ function clearRoute() {
 function showDirections(building) {
   if (!building) { showToast(t('buildingNotFound'), 'error'); return; }
 
+  // Real GPS only — no simulated fallback. Ask for the location, then retry.
   if (!APP_STATE.userLocation) {
-    setSimulating(true);
-    showToast(t('noLocation'));
+    locateUser(() => showDirections(building));
+    return;
   }
 
-  const defaultFrom = typeof PAVILLON_CENTRAL !== 'undefined' ? PAVILLON_CENTRAL : [31.648917, -8.015350];
-  const from = APP_STATE.userLocation || defaultFrom;
+  const from = APP_STATE.userLocation;
   const to   = building.coordinates;
   if (!from || !to) { showToast(t('locUnavailable'), 'error'); return; }
 
   const nameKey = APP_STATE.lang === 'en' ? 'nameEn' : APP_STATE.lang === 'ar' ? 'nameAr' : 'name';
   const bName   = building[nameKey] || building.name;
 
-  const isSimulated = APP_STATE.simulating;
-  const fromLabel = isSimulated ? t('fromLabelSimulated') : t('fromLabel');
+  const fromLabel = t('fromLabel');
 
   const routeData = buildCampusRoute(from, to, bName, fromLabel);
   drawRoute(routeData.points);

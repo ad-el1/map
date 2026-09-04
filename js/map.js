@@ -188,7 +188,8 @@ function removeUserMarker() {
   APP_STATE.userLocation = null;
 }
 
-function locateUser() {
+// locateUser(onSuccess?) — real GPS only. onSuccess runs once the fix is placed.
+function locateUser(onSuccess) {
   const btn = document.getElementById('locate-btn');
 
   // Geolocation needs a secure context (HTTPS or localhost). On http://192.168.x.x
@@ -206,12 +207,11 @@ function locateUser() {
       btn.classList.remove('locating');
       const latlng = [pos.coords.latitude, pos.coords.longitude];
       placeUserMarker(latlng);
-      // If the fix is far outside the campus, keep the campus in view too
       const onCampus = L.latLngBounds(FSSM_BOUNDARY).pad(0.6).contains(latlng);
       APP_STATE.map.setView(latlng, onCampus ? 18 : APP_STATE.map.getZoom(), { animate: true });
       showToast(t('locEnabled'));
-      if (APP_STATE.simulating) setSimulating(false);
       btn.classList.add('active');
+      if (typeof onSuccess === 'function') onSuccess();
     },
     err => {
       btn.classList.remove('locating');
@@ -222,16 +222,6 @@ function locateUser() {
   );
 }
 
-function setSimulating(on) {
-  APP_STATE.simulating = on;
-  document.getElementById('simulate-btn').classList.toggle('simulating', on);
-  if (on) {
-    placeUserMarker(PAVILLON_CENTRAL);
-    APP_STATE.map.setView(PAVILLON_CENTRAL, 17, { animate: true });
-    showToast(t('locSimulated'));
-    document.getElementById('locate-btn').classList.remove('active');
-  } else {
-    removeUserMarker();
-    document.getElementById('simulate-btn').classList.remove('simulating');
-  }
-}
+// Simulation removed — the app uses real GPS only. Kept as a no-op so any
+// leftover reference doesn't throw.
+function setSimulating() {}
