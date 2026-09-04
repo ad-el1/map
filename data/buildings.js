@@ -45,19 +45,6 @@ const BUILDINGS = [
     // services: ['Bureau du Doyen', 'Administration'],
     description: 'Décanat de la faculté'
   },
-  {
-    id: 'scolarite',
-    name: 'Scolarité & Centre de Recherche',
-    nameEn: 'Student Affairs & Research Center',
-    nameAr: 'شؤون الطلاب ومركز الأبحاث',
-    code: 'SCO',
-    department: 'Administration',
-    category: 'administration',
-    coordinates: [31.648350, -8.014650],
-    // openingHours: '08:30 – 15:30',
-    // services: ['Inscriptions', 'Certificats de scolarité', 'Relevés de notes', 'Attestations'],
-    description: 'Service des affaires étudiantes et inscriptions'
-  },
 
   // ── Bibliothèque ───────────────────────────────────────────────────────────
   {
