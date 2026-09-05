@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
-  <link rel="stylesheet" href="style.css?v=22" />
+  <link rel="stylesheet" href="style.css?v=23" />
 </head>
 <body>
 
@@ -114,13 +114,13 @@
       </button>
     </div>
     <div class="category-filters" id="category-filters" role="group" aria-label="Filtrer par catégorie">
-      <button class="cat-btn active" data-category="all"           data-i18n="all">Tous</button>
-      <button class="cat-btn" data-category="amphitheater" data-i18n="cat_amphitheater">Amphithéâtres</button>
-      <button class="cat-btn" data-category="department"   data-i18n="cat_department">Départements</button>
-      <button class="cat-btn" data-category="library"      data-i18n="cat_library">Bibliothèque</button>
-      <button class="cat-btn" data-category="restaurant"   data-i18n="cat_restaurant">Restauration</button>
-      <button class="cat-btn" data-category="administration" data-i18n="cat_administration">Admin</button>
-      <button class="cat-btn" data-category="parking"      data-i18n="cat_parking">Parking</button>
+      <button class="cat-btn active" data-category="all"><span class="cat-icon" aria-hidden="true">✦</span><span data-i18n="all">Tous</span></button>
+      <button class="cat-btn" data-category="amphitheater"><span class="cat-icon" aria-hidden="true">🏛️</span><span data-i18n="cat_amphitheater">Amphithéâtres</span></button>
+      <button class="cat-btn" data-category="department"><span class="cat-icon" aria-hidden="true">🎓</span><span data-i18n="cat_department">Départements</span></button>
+      <button class="cat-btn" data-category="library"><span class="cat-icon" aria-hidden="true">📚</span><span data-i18n="cat_library">Bibliothèque</span></button>
+      <button class="cat-btn" data-category="restaurant"><span class="cat-icon" aria-hidden="true">🍽️</span><span data-i18n="cat_restaurant">Restauration</span></button>
+      <button class="cat-btn" data-category="administration"><span class="cat-icon" aria-hidden="true">🏢</span><span data-i18n="cat_administration">Admin</span></button>
+      <button class="cat-btn" data-category="parking"><span class="cat-icon" aria-hidden="true">🅿️</span><span data-i18n="cat_parking">Parking</span></button>
     </div>
     <div class="search-results" id="search-results" role="listbox" style="display:none"></div>
   </div>

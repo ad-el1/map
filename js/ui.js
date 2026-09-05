@@ -67,6 +67,7 @@ function showBuildingDetails(building) {
   const badge = document.getElementById('detail-badge');
   badge.textContent    = `${cfg.emoji} ${catLabel}`;
   badge.style.background = cfg.color;
+  document.getElementById('building-details').style.setProperty('--cat-color', cfg.color);
 
   // Name, dept/desc
   document.getElementById('detail-name').textContent = building[nameKey] || building.name;

@@ -126,7 +126,7 @@ function makeIcon(category, selected = false) {
   const size = selected ? 40 : 32;
   return L.divIcon({
     className: '',
-    html: `<div class="mk${selected ? ' selected' : ''}" style="width:${size}px;height:${size}px;background:${cfg.color}">
+    html: `<div class="mk${selected ? ' selected' : ''}" style="width:${size}px;height:${size}px;background-color:${cfg.color}">
              <span class="mk-inner" style="font-size:${selected ? 16 : 13}px">${cfg.emoji}</span>
            </div>`,
     iconSize:    [size, size],
