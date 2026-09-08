@@ -57,6 +57,42 @@ function initMap() {
     document.getElementById('search-results').style.display = 'none';
   });
 
+  // Long-press (mobile) / right-click (desktop) → set your position by hand.
+  // GPS on a phone is only ±5–50 m; on campus you often know exactly where you
+  // are, so this gives a pinpoint origin for routing.
+  function setPositionManually(latlng) {
+    if (APP_STATE.geoWatchId != null) {
+      navigator.geolocation.clearWatch(APP_STATE.geoWatchId);
+      APP_STATE.geoWatchId = null;
+    }
+    placeUserMarker([latlng.lat, latlng.lng], 0);
+    const btn = document.getElementById('locate-btn');
+    if (btn) { btn.classList.add('active'); btn.classList.remove('locating'); }
+    showToast(t('locManual'));
+  }
+  APP_STATE.map.on('contextmenu', e => setPositionManually(e.latlng));
+
+  // Manual long-press detector (iOS Safari doesn't reliably fire contextmenu)
+  const mapEl = document.getElementById('map');
+  let _lpTimer = null, _lpStart = null;
+  const cancelLp = () => { clearTimeout(_lpTimer); _lpTimer = null; };
+  mapEl.addEventListener('touchstart', ev => {
+    if (ev.touches.length !== 1) return cancelLp();
+    const t0 = ev.touches[0];
+    _lpStart = { x: t0.clientX, y: t0.clientY };
+    _lpTimer = setTimeout(() => {
+      const rect = mapEl.getBoundingClientRect();
+      const pt = L.point(_lpStart.x - rect.left, _lpStart.y - rect.top);
+      setPositionManually(APP_STATE.map.containerPointToLatLng(pt));
+    }, 550);
+  }, { passive: true });
+  mapEl.addEventListener('touchmove', ev => {
+    if (!_lpStart) return;
+    const t0 = ev.touches[0];
+    if (Math.hypot(t0.clientX - _lpStart.x, t0.clientY - _lpStart.y) > 12) cancelLp();
+  }, { passive: true });
+  mapEl.addEventListener('touchend', cancelLp, { passive: true });
+
   // The map has its own column on desktop; keep Leaflet in sync when the
   // viewport crosses the breakpoint or the window resizes.
   const keepMapSized = () => APP_STATE.map && APP_STATE.map.invalidateSize({ pan: false });
@@ -245,8 +281,8 @@ function locateUser(onSuccess) {
         btn.classList.add('active');
         const onCampus = L.latLngBounds(FSSM_BOUNDARY).pad(0.8).contains(latlng);
         APP_STATE.map.setView(latlng, onCampus ? 18 : APP_STATE.map.getZoom(), { animate: true });
-        showToast(acc > 60 ? t('locCoarse') : t('locEnabled'));
-        warnedCoarse = acc > 60;
+        showToast(acc > 40 ? t('locCoarse') : t('locEnabled'));
+        warnedCoarse = acc > 40;
         if (typeof onSuccess === 'function') onSuccess();
       } else if (warnedCoarse && acc <= 40) {
         warnedCoarse = false;
