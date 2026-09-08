@@ -20,29 +20,21 @@ function showSection(id) {
   if (p) p.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-/* ─── Bottom-sheet snap points (mobile): peek · half · full ───────────────── */
-function setSheetState(state) {
+/* ─── Bottom-sheet expand / collapse (mobile) ─────────────────────────────── */
+function expandPanel() {
   const p = document.getElementById('panel');
-  if (!p) return;
-  p.classList.remove('half', 'expanded');
-  if (state === 'half') p.classList.add('half');
-  else if (state === 'full') p.classList.add('expanded');
-  document.body.classList.toggle('panel-expanded', state === 'full');
-  document.body.classList.toggle('panel-half', state === 'half');
-  if (APP_STATE.map) setTimeout(() => APP_STATE.map.invalidateSize({ pan: false }), 320);
+  if (p) p.classList.add('expanded');
+  document.body.classList.add('panel-expanded');
 }
-function sheetState() {
+function collapsePanel() {
   const p = document.getElementById('panel');
-  if (!p) return 'peek';
-  return p.classList.contains('expanded') ? 'full' : p.classList.contains('half') ? 'half' : 'peek';
+  if (p) p.classList.remove('expanded');
+  document.body.classList.remove('panel-expanded');
 }
-// half = map + panel both visible (route stays on screen while reading steps)
-function halfPanel()     { setSheetState('half'); }
-function expandPanel()   { setSheetState('full'); }
-function collapsePanel() { setSheetState('peek'); }
 function togglePanel() {
-  const s = sheetState();
-  setSheetState(s === 'peek' ? 'half' : s === 'half' ? 'full' : 'peek');
+  const p = document.getElementById('panel');
+  if (p && p.classList.contains('expanded')) collapsePanel();
+  else expandPanel();
 }
 
 /* ─── Toast ───────────────────────────────────────────────────────────────── */
@@ -120,7 +112,7 @@ function showBuildingDetails(building) {
   updateStarBtn(building.id);
 
   showSection('building-details');
-  if (sheetState() === 'peek') halfPanel();
+  expandPanel();
 }
 
 /* ─── Dark mode ───────────────────────────────────────────────────────────── */
@@ -354,7 +346,7 @@ function showNearMe() {
   });
 
   showSection('nearme-panel');
-  halfPanel();
+  expandPanel();
 
   // Fit map to these 5 buildings
   const bounds = L.latLngBounds([from, ...sorted.map(({ b }) => b.coordinates)]).pad(0.15);
@@ -561,15 +553,14 @@ function bindEvents() {
     });
   });
 
-  // Bottom-sheet swipe (mobile): step peek ↔ half ↔ full
+  // Bottom-sheet swipe (mobile): down → collapse, up → expand
   let _touchY = 0;
   const panel = document.getElementById('panel');
   panel.addEventListener('touchstart', e => { _touchY = e.touches[0].clientY; }, { passive: true });
   panel.addEventListener('touchend',   e => {
     const dy = e.changedTouches[0].clientY - _touchY;
-    const s = sheetState();
-    if (dy > 60)       setSheetState(s === 'full' ? 'half' : 'peek');
-    else if (dy < -45) setSheetState(s === 'peek' ? 'half' : 'full');
+    if (dy > 70)      collapsePanel();
+    else if (dy < -50) expandPanel();
   }, { passive: true });
 }
 
