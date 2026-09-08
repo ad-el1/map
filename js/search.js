@@ -20,7 +20,12 @@ function renderSearchResults(buildings) {
   const container = document.getElementById('search-results');
 
   if (!buildings || buildings.length === 0) {
-    container.innerHTML = `<div class="no-results">${t('noResults')}</div>`;
+    container.innerHTML = `
+      <div class="no-results">
+        <span class="no-results-icon" aria-hidden="true">🔎</span>
+        <p class="no-results-text">${t('noResults')}</p>
+        <p class="no-results-hint">${t('noResultsHint')}</p>
+      </div>`;
     container.style.display = 'block';
     return;
   }

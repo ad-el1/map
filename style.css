@@ -301,7 +301,10 @@ body.offline { --safe-top: 42px; }
 .result-name { font-size: 14px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .result-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
 .result-distance { font-size: 12px; font-weight: 600; color: var(--primary); white-space: nowrap; }
-.no-results { padding: 24px; text-align: center; color: var(--text-muted); font-size: 14px; }
+.no-results { padding: 30px 24px; text-align: center; }
+.no-results-icon { font-size: 28px; display: block; margin-bottom: 8px; opacity: .5; filter: grayscale(.3); }
+.no-results-text { color: var(--text-secondary); font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+.no-results-hint { color: var(--text-muted); font-size: 12px; }
 
 /* ── Map control buttons ─────────────────────────────────────────── */
 .map-controls {
