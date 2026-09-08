@@ -391,15 +391,45 @@ function drawWalkwayNetwork() {
 function drawRoute(points) {
   clearRoute();
   drawWalkwayNetwork();
-  APP_STATE.routeLayer = L.polyline(points, {
-    color:     '#c2571f',
-    weight:    5,
-    opacity:   0.9,
-    dashArray: '10 6',
-    className: 'route-line',
-    lineJoin:  'round',
-    lineCap:   'round'
-  }).addTo(APP_STATE.map);
+
+  // Casing + line so the route reads on any background
+  const g = L.layerGroup();
+  L.polyline(points, { color: '#ffffff', weight: 9, opacity: 0.9, lineJoin: 'round', lineCap: 'round', interactive: false }).addTo(g);
+  L.polyline(points, {
+    color: '#c2571f', weight: 5, opacity: 1, dashArray: '10 6',
+    className: 'route-line', lineJoin: 'round', lineCap: 'round', interactive: false,
+  }).addTo(g);
+
+  // Direction arrows every ~28 m along the path
+  addRouteArrows(points, g);
+
+  APP_STATE.routeLayer = g.addTo(APP_STATE.map);
+}
+
+function addRouteArrows(points, group) {
+  const STEP = 28; // metres between arrows
+  for (let i = 0; i < points.length - 1; i++) {
+    const a = points[i], b = points[i + 1];
+    const segLen = haversine(a, b);
+    if (segLen < 6) continue;
+    const brng = calcBearing(a, b);
+    const n = Math.max(1, Math.floor(segLen / STEP));
+    for (let k = 1; k <= n; k++) {
+      const f = (k - 0.5) / n;
+      const lat = a[0] + (b[0] - a[0]) * f;
+      const lon = a[1] + (b[1] - a[1]) * f;
+      L.marker([lat, lon], {
+        interactive: false,
+        zIndexOffset: 500,
+        icon: L.divIcon({
+          className: '',
+          html: `<div class="route-arrow" style="transform:rotate(${brng}deg)">▲</div>`,
+          iconSize: [16, 16],
+          iconAnchor: [8, 8],
+        }),
+      }).addTo(group);
+    }
+  }
 }
 
 function clearRoute() {
@@ -464,6 +494,6 @@ function showDirections(building) {
   }).join('');
 
   showSection('directions-panel');
-  if (typeof expandPanel === 'function') expandPanel();
+  if (typeof halfPanel === 'function') halfPanel();
   APP_STATE.map.fitBounds(L.latLngBounds(routeData.points).pad(0.2), { animate: true });
 }
