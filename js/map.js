@@ -171,55 +171,102 @@ function updateMarkerVisibility(category) {
 }
 
 /* ─── User location ───────────────────────────────────────────────────────── */
-function placeUserMarker(latlng) {
-  if (APP_STATE.userMarker) APP_STATE.map.removeLayer(APP_STATE.userMarker);
-  const icon = L.divIcon({
-    className: '',
-    html: '<div class="user-dot"></div>',
-    iconSize:   [18, 18],
-    iconAnchor: [9, 9],
-  });
-  APP_STATE.userMarker   = L.marker(latlng, { icon, zIndexOffset: 1000 }).addTo(APP_STATE.map);
+// Places / moves the blue dot and its accuracy halo (radius = GPS accuracy in m).
+function placeUserMarker(latlng, accuracy) {
+  if (!APP_STATE.userMarker) {
+    const icon = L.divIcon({ className: '', html: '<div class="user-dot"></div>', iconSize: [18, 18], iconAnchor: [9, 9] });
+    APP_STATE.userMarker = L.marker(latlng, { icon, zIndexOffset: 1000 }).addTo(APP_STATE.map);
+  } else {
+    APP_STATE.userMarker.setLatLng(latlng);
+  }
+
+  if (accuracy && accuracy > 12) {
+    if (!APP_STATE.userAccuracy) {
+      APP_STATE.userAccuracy = L.circle(latlng, {
+        radius: accuracy, color: '#1d6fe0', weight: 1, opacity: .35,
+        fillColor: '#1d6fe0', fillOpacity: .10, interactive: false,
+      }).addTo(APP_STATE.map);
+    } else {
+      APP_STATE.userAccuracy.setLatLng(latlng).setRadius(accuracy);
+    }
+  } else if (APP_STATE.userAccuracy) {
+    APP_STATE.map.removeLayer(APP_STATE.userAccuracy);
+    APP_STATE.userAccuracy = null;
+  }
+
   APP_STATE.userLocation = latlng;
 }
 
 function removeUserMarker() {
-  if (APP_STATE.userMarker) { APP_STATE.map.removeLayer(APP_STATE.userMarker); APP_STATE.userMarker = null; }
+  if (APP_STATE.geoWatchId != null) { navigator.geolocation.clearWatch(APP_STATE.geoWatchId); APP_STATE.geoWatchId = null; }
+  if (APP_STATE.userMarker)   { APP_STATE.map.removeLayer(APP_STATE.userMarker);   APP_STATE.userMarker = null; }
+  if (APP_STATE.userAccuracy) { APP_STATE.map.removeLayer(APP_STATE.userAccuracy); APP_STATE.userAccuracy = null; }
   APP_STATE.userLocation = null;
+  const btn = document.getElementById('locate-btn');
+  if (btn) btn.classList.remove('active', 'locating');
 }
 
-// locateUser(onSuccess?) — real GPS only. onSuccess runs once the fix is placed.
+// locateUser(onSuccess?) — real GPS only, with a live watch so the fix refines.
 function locateUser(onSuccess) {
   const btn = document.getElementById('locate-btn');
 
-  // Geolocation needs a secure context (HTTPS or localhost). On http://192.168.x.x
-  // the browser blocks it silently — tell the user instead of failing quietly.
+  // Geolocation needs a secure context (HTTPS or localhost).
   if (!window.isSecureContext || !navigator.geolocation) {
     showToast(t('locInsecure'), 'error');
+    return;
+  }
+
+  // Already tracking → just recentre on the current position.
+  if (APP_STATE.userLocation && APP_STATE.geoWatchId != null) {
+    APP_STATE.map.setView(APP_STATE.userLocation, Math.max(APP_STATE.map.getZoom(), 18), { animate: true });
+    if (typeof onSuccess === 'function') onSuccess();
     return;
   }
 
   btn.classList.add('locating');
   showToast(t('locSearching'));
 
-  navigator.geolocation.getCurrentPosition(
+  let firstFix = true;
+  let warnedCoarse = false;
+
+  const done = () => {
+    if (APP_STATE.geoWatchId != null) { navigator.geolocation.clearWatch(APP_STATE.geoWatchId); APP_STATE.geoWatchId = null; }
+  };
+
+  APP_STATE.geoWatchId = navigator.geolocation.watchPosition(
     pos => {
-      btn.classList.remove('locating');
       const latlng = [pos.coords.latitude, pos.coords.longitude];
-      placeUserMarker(latlng);
-      const onCampus = L.latLngBounds(FSSM_BOUNDARY).pad(0.6).contains(latlng);
-      APP_STATE.map.setView(latlng, onCampus ? 18 : APP_STATE.map.getZoom(), { animate: true });
-      showToast(t('locEnabled'));
-      btn.classList.add('active');
-      if (typeof onSuccess === 'function') onSuccess();
+      const acc = pos.coords.accuracy;   // metres
+      placeUserMarker(latlng, acc);
+
+      if (firstFix) {
+        firstFix = false;
+        btn.classList.remove('locating');
+        btn.classList.add('active');
+        const onCampus = L.latLngBounds(FSSM_BOUNDARY).pad(0.8).contains(latlng);
+        APP_STATE.map.setView(latlng, onCampus ? 18 : APP_STATE.map.getZoom(), { animate: true });
+        showToast(acc > 60 ? t('locCoarse') : t('locEnabled'));
+        warnedCoarse = acc > 60;
+        if (typeof onSuccess === 'function') onSuccess();
+      } else if (warnedCoarse && acc <= 40) {
+        warnedCoarse = false;
+        showToast(t('locRefined'));
+      }
+
+      // Good enough → stop watching to save battery.
+      if (acc <= 20) done();
     },
     err => {
       btn.classList.remove('locating');
+      done();
       const msgs = { 1: t('locDenied'), 2: t('locUnavailable'), 3: t('locTimeout') };
       showToast(msgs[err.code] || t('locUnavailable'), 'error');
     },
-    { enableHighAccuracy: true, timeout: 12000, maximumAge: 5000 }
+    { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
   );
+
+  // Safety: stop the watch after 30 s regardless.
+  setTimeout(done, 30000);
 }
 
 // Simulation removed — the app uses real GPS only. Kept as a no-op so any
